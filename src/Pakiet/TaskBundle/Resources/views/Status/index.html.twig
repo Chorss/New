@@ -1,0 +1,36 @@
+{# src/Pakiet/TaskBundle/Resources/views/Status/index.html.twig #}
+{% extends 'PakietTaskBundle::base.html.twig' %}
+
+{% block title %}
+    Lista Status
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <h1>status index!</h1>
+    <article>
+        <a href="{{ path('PakietTaskBundle:Status:Add')}}">Dodaj status</a>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+                <th{% if pagination.isSorted('a.name') %}
+                    class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Name', 'a.name') }}
+                </th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for status in pagination %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ status.id }}</td>
+                    <td>{{ status.name }}</td>
+                    <td>
+                        <a class="btn btn-sm" href="{{ path('PakietTaskBundle:Status:View', {'id':status.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </article>
+{% endblock %}

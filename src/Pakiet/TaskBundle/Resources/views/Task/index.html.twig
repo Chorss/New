@@ -1,6 +1,41 @@
 {# src/Pakiet/TaskBundle/Resources/views/Task/index.html.twig #}
 {% extends 'PakietTaskBundle::base.html.twig' %}
 
+{% block title %}
+    Lista Tasków
+{% endblock %}
 {% block body %}
+    {{ parent() }}
     <h1>Task index!</h1>
+    <article>
+        <a href="{{ path('PakietTaskBundle:Task:Add')}}">Dodaj tasks</a>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+                    <th{% if pagination.isSorted('a.name') %}
+                        class="sorted"{% endif %}>
+                        {{ knp_pagination_sortable(pagination, 'Name', 'a.name') }}
+                    </th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in pagination %}
+                    <tr {% if loop.index is odd %}class="color"{% endif %}>
+                        <td>{{ task.id }}</td>
+                        <td>{{ task.name }}</td>
+                        <td>{{ task.DateCreated |date('Y-m-d H:i:s') }}</td>
+                        <td>
+                            <a class="btn btn-sm" href="{{ path('PakietTaskBundle:Task:View', {'id':task.id}) }}">edit</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </article>
 {% endblock %}

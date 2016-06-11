@@ -7,32 +7,33 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
-use Pakiet\TaskBundle\Entity\Tasks;
+use Pakiet\TaskBundle\Entity\Status;
 use Pakiet\TaskBundle\Form\Type;
 
 /**
- * @Route("/task")
+ * @Route("/status")
  */
-class TaskController extends Controller
+class StatusController extends Controller
 {
     /**
      * @Route(
      *     "/{page}",
      *     defaults={"page" = 1},
      *     requirements={"page": "\d+"},
-     *     name="PakietTaskBundle:Task:Index"
+     *     name="PakietTaskBundle:Status:Index"
      * )
      *
      * @Template
      */
-    public function indexAction($page)
+    public function indexAction(Request $request, $page)
     {
         $em    = $this->get('doctrine.orm.entity_manager');
-        $dql   = "SELECT a FROM PakietTaskBundle:Tasks a";
+        $dql   = "SELECT a FROM PakietTaskBundle:Status a";
         $query = $em->createQuery($dql);
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate($query, $page, 10);
+
         return array(
             'pagination' => $pagination
         );
@@ -41,52 +42,51 @@ class TaskController extends Controller
     /**
      * @Route(
      *     "/view/{id}",
-     *     name="PakietTaskBundle:Task:View"
+     *     name="PakietTaskBundle:Status:View"
      * )
      *
      * @Template
      */
     public function viewAction($id)
     {
-        $task = $this->getDoctrine()->getRepository('PakietTaskBundle:Tasks')->find( (int)$id );
+        $status = $this->getDoctrine()->getRepository('PakietTaskBundle:Status')->find( (int)$id );
 
-        if(is_null($task)){
-            $this->addFlash('danger', 'Is null task');
-            return $this->redirectToRoute('PakietTaskBundle:Task:Index');
+        if(is_null($status)){
+            $this->addFlash('danger', 'Is null status');
+            return $this->redirectToRoute('PakietTaskBundle:Status:Index');
         }
-
+        
         return array(
-            'task' => $task
+            'status' => $status
         );
     }
 
     /**
      * @Route(
      *     "/add",
-     *     name="PakietTaskBundle:Task:Add"
+     *     name="PakietTaskBundle:Status:Add"
      * )
      *
      * @Template
      */
     public function addAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $tasks = new Tasks();
-        $tasks->setDateCreated(new \DateTime());
-        $form = $this->createForm(new Type\AddTaskType(), $tasks);
+        $status = new Status();
+        $form = $this->createForm(new Type\AddStatusType(), $status);
 
         $form->handleRequest($request);
 
         if($request->isMethod('POST') && $form->isValid())
         {
             try{
-                $em->persist($tasks);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($status);
                 $em->flush();
-                $this->addFlash('success', 'Add task');
-                return $this->redirectToRoute('PakietTaskBundle:Task:Index');
+                $this->addFlash('success', 'Add status');
+                return $this->redirectToRoute('PakietTaskBundle:Status:Index');
             }catch (Exception $e){
                 $this->addFlash('danger', $e->getMessage());
-                return $this->redirectToRoute('PakietTaskBundle:Task:Index');
+                return $this->redirectToRoute('PakietTaskBundle:Status:Index');
             }
         }
 
@@ -98,7 +98,7 @@ class TaskController extends Controller
     /**
      * @Route(
      *     "/edit/{id}",
-     *     name="PakietTaskBundle:Task:Edit"
+     *     name="PakietTaskBundle:Status:Edit"
      * )
      *
      * @Template
@@ -106,25 +106,25 @@ class TaskController extends Controller
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $task = $em->getRepository('PakietTaskBundle:Tasks')->find((int)$id);
+        $status = $em->getRepository('PakietTaskBundle:Status')->find( (int)$id );
 
-        if(is_null($task)){
-            $this->addFlash('danger', 'Is null task');
-            return $this->redirectToRoute('PakietTaskBundle:Task:Index');
+        if(is_null($status)){
+            $this->addFlash('danger', 'Is null status');
+            return $this->redirectToRoute('PakietTaskBundle:Status:Index');
         }
 
-        $form = $this->createForm(new Type\AddTaskType(), $task);
+        $form = $this->createForm(new Type\AddStatusType(), $status);
         $form->handleRequest($request);
 
         if($request->isMethod('POST') && $form->isValid()){
             try{
-                $em->persist($task);
+                $em->persist($status);
                 $em->flush();
-                $this->addFlash('success','edit task');
-                return $this->redirectToRoute('PakietTaskBundle:Task:View', array( 'id'=>$task->getId() ));
+                $this->addFlash('success', 'edit status');
+                return $this->redirectToRoute('PakietTaskBundle:Status:Index');
             }catch (Exception $e){
                 $this->addFlash('danger', $e->getMessage());
-                return $this->redirectToRoute('PakietTaskBundle:Task:Index');
+                return $this->redirectToRoute('PakietTaskBundle:Status:Index');
             }
         }
 
@@ -136,28 +136,28 @@ class TaskController extends Controller
     /**
      * @Route(
      *     "/remove/{id}",
-     *     name="PakietTaskBundle:Task:Remove"
+     *     name="PakietTaskBundle:Status:Remove"
      * )
      */
     public function removeAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('PakietTaskBundle:Tasks');
-        $task = $repo->find($id);
+        $repo = $em->getRepository('PakietTaskBundle:Status');
+        $status = $repo->find($id);
 
-        if(is_null($task)){
-            $this->addFlash('danger', 'In null task');
-            return $this->redirectToRoute('PakietTaskBundle:Task:Index');
+        if(is_null($status)){
+            $this->addFlash('danger', 'Is null status');
+            return $this->redirectToRoute('PakietTaskBundle:Status:Index');
         }
 
         try{
-            $em->remove($task);
+            $em->remove($status);
             $em->flush();
-            $this->addFlash('success', 'Remove task');
-            return $this->redirectToRoute('PakietTaskBundle:Task:Index');
+            $this->addFlash('success', 'Remove status');
+            return $this->redirectToRoute('PakietTaskBundle:Status:Index');
         }catch (Exception $e){
             $this->addFlash('danger', $e->getMessage());
-            return $this->redirectToRoute('PakietTaskBundle:Task:Index');
+            return $this->redirectToRoute('PakietTaskBundle:Status:Index');
         }
     }
 }

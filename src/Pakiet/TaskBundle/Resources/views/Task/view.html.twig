@@ -2,5 +2,27 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {{ parent() }}
     <h1>Task view!</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>as</th>
+                <th>date</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ task.name }}</td>
+                <td>{{ task.status.name }}</td>
+                <td>{{ task.DateCreated|date("m/d/Y") }}</td>
+                <td>
+                    <a class="btn btn-sm" href="{{ path('PakietTaskBundle:Task:Edit', {'id':task.id}) }}">edit</a>
+                    <a class="btn btn-sm" href="{{ path('PakietTaskBundle:Task:Remove', {'id':task.id}) }}">delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 {% endblock %}

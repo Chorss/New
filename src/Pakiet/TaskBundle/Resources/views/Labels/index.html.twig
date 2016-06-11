@@ -1,0 +1,36 @@
+{# src/Pakiet/TaskBundle/Resources/views/labels/index.html.twig #}
+{% extends 'PakietTaskBundle::base.html.twig' %}
+
+{% block title %}
+    Labels
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <article>
+        <a href="{{ path('PakietTaskBundle:Labels:Add')}}">Add Labels</a>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+                <th{% if pagination.isSorted('a.name') %}
+                    class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Name', 'a.name') }}
+                </th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for labels in pagination %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ labels.id }}</td>
+                    <td>{{ labels.name }}</td>
+                    <td>
+                        <a class="btn btn-sm" href="{{ path('PakietTaskBundle:Labels:Edit', {'id':labels.id}) }}">edit</a>
+                        <a class="btn btn-sm" href="{{ path('PakietTaskBundle:Labels:Remove', {'id':labels.id}) }}">remove</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </article>
+{% endblock %}

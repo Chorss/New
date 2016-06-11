@@ -2,6 +2,7 @@
 
 namespace Pakiet\TaskBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,20 +19,55 @@ class Tasks
     private $id;
 
     /**
-     * @ORM\Column(type="string", nullable=false, length=50)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Length(max=250)
+     *
+     * @ORM\Column(type="string", length=250)
      *
      */
-    private $title;
+    private $name;
 
     /**
-     * @ORM\Column(type="string", nullable=true, length=250)
-     */
-    private $descripton;
-
-    /**
+     * @Assert\NotNull()
+     * @Assert\DateTime()
+     *
      * @ORM\Column(type="datetime")
      */
-    private $date_created;
+    private $dateCreated;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Priorities", inversedBy="tasks")
+     * @ORM\JoinColumn(name="priorities_id", referencedColumnName="id")
+     */
+    private $priorities;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     *
+     * @ORM\ManyToOne(targetEntity="Status", inversedBy="tasks")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+    private $status;
+
+    /**
+     *
+     *
+     * @ORM\ManyToOne(targetEntity="Projects", inversedBy="tasks")
+     * @ORM\JoinColumn(name="projects_id", referencedColumnName="id")
+     */
+    private $projects;
+
+    /**
+     * 
+     *
+     * @ORM\ManyToOne(targetEntity="Labels", inversedBy="tasks")
+     * @ORM\JoinColumn(name="labels_id", referencedColumnName="id")
+     */
+    private $labels;
+    
 
     /**
      * Get id
@@ -44,51 +80,27 @@ class Tasks
     }
 
     /**
-     * Set title
+     * Set name
      *
-     * @param string $title
+     * @param string $name
      *
      * @return Tasks
      */
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get title
+     * Get name
      *
      * @return string
      */
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
-    }
-
-    /**
-     * Set descripton
-     *
-     * @param string $descripton
-     *
-     * @return Tasks
-     */
-    public function setDescripton($descripton)
-    {
-        $this->descripton = $descripton;
-
-        return $this;
-    }
-
-    /**
-     * Get descripton
-     *
-     * @return string
-     */
-    public function getDescripton()
-    {
-        return $this->descripton;
+        return $this->name;
     }
 
     /**
@@ -100,7 +112,7 @@ class Tasks
      */
     public function setDateCreated($dateCreated)
     {
-        $this->date_created = $dateCreated;
+        $this->dateCreated = $dateCreated;
 
         return $this;
     }
@@ -112,6 +124,102 @@ class Tasks
      */
     public function getDateCreated()
     {
-        return $this->date_created;
+        return $this->dateCreated;
+    }
+
+    /**
+     * Set priorities
+     *
+     * @param \Pakiet\TaskBundle\Entity\Priorities $priorities
+     *
+     * @return Tasks
+     */
+    public function setPriorities(\Pakiet\TaskBundle\Entity\Priorities $priorities = null)
+    {
+        $this->priorities = $priorities;
+
+        return $this;
+    }
+
+    /**
+     * Get priorities
+     *
+     * @return \Pakiet\TaskBundle\Entity\Priorities
+     */
+    public function getPriorities()
+    {
+        return $this->priorities;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \Pakiet\TaskBundle\Entity\Status $status
+     *
+     * @return Tasks
+     */
+    public function setStatus(\Pakiet\TaskBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Pakiet\TaskBundle\Entity\Status
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set projects
+     *
+     * @param \Pakiet\TaskBundle\Entity\Projects $projects
+     *
+     * @return Tasks
+     */
+    public function setProjects(\Pakiet\TaskBundle\Entity\Projects $projects = null)
+    {
+        $this->projects = $projects;
+
+        return $this;
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Pakiet\TaskBundle\Entity\Projects
+     */
+    public function getProjects()
+    {
+        return $this->projects;
+    }
+
+    /**
+     * Set labels
+     *
+     * @param \Pakiet\TaskBundle\Entity\Labels $labels
+     *
+     * @return Tasks
+     */
+    public function setLabels(\Pakiet\TaskBundle\Entity\Labels $labels = null)
+    {
+        $this->labels = $labels;
+
+        return $this;
+    }
+
+    /**
+     * Get labels
+     *
+     * @return \Pakiet\TaskBundle\Entity\Labels
+     */
+    public function getLabels()
+    {
+        return $this->labels;
     }
 }
