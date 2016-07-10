@@ -1,5 +1,13 @@
-pakiet_task:
-    resource: "@PakietTaskBundle/Controller/"
+package_user:
+    resource: "@PackageUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+package_defaults:
+    resource: "@PackageDefaultsBundle/Controller/"
     type:     annotation
     prefix:   /
 
+package_task:
+    resource: "@PackageTaskBundle/Controller/"
+    type:     annotation
+    prefix:   /

@@ -1,0 +1,23 @@
+{# src/Pakiet/TaskBundle/Resources/views/Priorities/view.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ priorities.name }}</td>
+                <td>
+                    <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Priorities:Edit', {'id':priorities.id}) }}">edit</a>
+                    <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Priorities:Remove', {'id':priorities.id}) }}">delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

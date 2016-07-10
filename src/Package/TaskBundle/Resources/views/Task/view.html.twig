@@ -1,0 +1,30 @@
+{# src/Pakiet/TaskBundle/Resources/views/Task/view.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <h1>Task view!</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>as</th>
+                <th>date</th>
+                <th>labels</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ task.name }}</td>
+                <td>{{ task.status.name }}</td>
+                <td>{{ task.DateCreated|date("m/d/Y") }}</td>
+                {#<td>{{ task.labels.name }}</td>#}
+                <td>
+                    <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Task:Edit', {'id':task.id}) }}">edit</a>
+                    <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Task:Remove', {'id':task.id}) }}">delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

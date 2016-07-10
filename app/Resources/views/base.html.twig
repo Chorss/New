@@ -1,14 +1,13 @@
-{# base.html.twig #}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}{% endblock %} - TODO</title>
+        <title>{% block title %}{% endblock %} | TODO</title>
         {% block stylesheets %}
             {% stylesheets filter='cssrewrite'
-                '@PakietTaskBundle/Resources/public/css/bootstrap.css'
-                '@PakietTaskBundle/Resources/public/css/bootstrap-theme.css'
+                '@PackageDefaultsBundle/Resources/public/css/bootstrap.css'
+                '@PackageDefaultsBundle/Resources/public/css/bootstrap-theme.css'
             %}
             <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
@@ -18,20 +17,39 @@
         <nav class="navbar navbar-default navbar-static-top navbar-inverse" >
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#todo-navbar-1">
                         <span class="sr-only">Przełącz nawigację</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ path('PakietTaskBundle:Task:Index') }}">TODO</a>
+                    <a class="navbar-brand" href="{{ path('PackageDefaultsBundle:Pages:Index') }}">TODO</a>
                 </div>
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="collapse navbar-collapse" id="todo-navbar-1">
                     <ul class="nav navbar-nav ">
-                        <li><a href="{{ path('PakietTaskBundle:Task:Index') }}">Task</a></li>
-                        <li><a href="{{ path('PakietTaskBundle:Status:Index') }}">Status</a></li>
-                        <li><a href="{{ path('PakietTaskBundle:Priorities:Index') }}">Priorities</a></li>
-                        <li><a href="{{ path('PakietTaskBundle:Labels:Index') }}">Labels</a></li>
+                        <li><a href="{{ path('PackageTaskBundle:Task:Index') }}">{{ 'Task'|trans }}</a></li>
+                        <li><a href="{{ path('PackageTaskBundle:Status:Index') }}">{{ 'Status'|trans }}</a></li>
+                        <li><a href="{{ path('PackageTaskBundle:Priorities:Index') }}">{{ 'Priorities'|trans }}</a></li>
+                        <li><a href="{{ path('PackageTaskBundle:Labels:Index') }}">{{ 'Labels'|trans }}</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <b>{{ app.user.username }}</b>
+                                {% else %}
+                                    <b>Menu</b>
+                                {% endif %}
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                {% if app.user.username is not defined %}
+                                    <li><a href="{{ path('PackageUserBundle:Security:Login') }}">Login</a></li>
+                                    <li><a href="{{ path('PackageUserBundle:Security:Register') }}">Rejestracja</a></li>
+                                {% else %}
+                                    <li><a href="{{ path('_logout') }}">Wyloguj</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -49,8 +67,8 @@
         </div>
         {% block javascripts %}
             {% javascripts
-                '@PakietTaskBundle/Resources/public/js/jquery.js'
-                '@PakietTaskBundle/Resources/public/js/bootstrap.js' %}
+                '@PackageDefaultsBundle/Resources/public/js/jquery.js'
+                '@PackageDefaultsBundle/Resources/public/js/bootstrap.js' %}
             <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}

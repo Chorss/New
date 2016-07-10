@@ -1,0 +1,10 @@
+{# src/Pakiet/TaskBundle/Resources/views/Task/add.html.twig #}
+{% extends 'PackageTaskBundle::base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="row">
+        <h1>Task add!</h1>
+        {{ form(form) }}
+    </div>
+{% endblock %}

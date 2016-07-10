@@ -1,0 +1,8 @@
+services:
+    user_manager:
+        class: Package\UserBundle\Service\UserManagerService
+        arguments: ["@doctrine", "@router", "@templating", "@translator", "@security.password_encoder", "@user_mailer"]
+
+    user_mailer:
+        class: Package\UserBundle\Service\UserMailerService
+        arguments: ["@mailer", "no-reply@prohibicja1930.pl", "Prohibicja1930.pl"]

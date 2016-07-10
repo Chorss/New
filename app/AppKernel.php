@@ -17,7 +17,9 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new Pakiet\TaskBundle\PakietTaskBundle(),
+            new Package\DefaultsBundle\PackageDefaultsBundle(),
+            new Package\TaskBundle\PackageTaskBundle(),
+            new Package\UserBundle\PackageUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
@@ -25,6 +27,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
         }
 
         return $bundles;

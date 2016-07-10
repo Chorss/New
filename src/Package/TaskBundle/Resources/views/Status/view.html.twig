@@ -1,0 +1,25 @@
+{# src/Pakiet/TaskBundle/Resources/views/Status/view.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ status.name }}</td>
+                <td>
+                    <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Status:Edit', {'id':status.id}) }}">edit</a>
+                    {% if status.getTasks.count == 0 %}
+                        <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Status:Remove', {'id':status.id}) }}">delete</a>
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

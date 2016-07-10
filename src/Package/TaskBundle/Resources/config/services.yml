@@ -1,0 +1,4 @@
+#services:
+#    PakietTask_Service_Notification:
+#        class: Pakiet\TaskBundle\Service\NotificationService
+#        arguments: [@session]

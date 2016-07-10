@@ -1,0 +1,35 @@
+{% extends 'PackageTaskBundle::base.html.twig' %}
+
+{% block title %}
+    Priorities
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <h1>Priorities index!</h1>
+    <article>
+        <a href="{{ path('PackageTaskBundle:Priorities:Add')}}">Add Priorities</a>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+                <th{% if pagination.isSorted('a.name') %}
+                    class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Name', 'a.name') }}
+                </th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for priorities in pagination %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ priorities.id }}</td>
+                    <td>{{ priorities.name }}</td>
+                    <td>
+                        <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Priorities:View', {'id':priorities.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </article>
+{% endblock %}
