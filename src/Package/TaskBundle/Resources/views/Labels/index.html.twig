@@ -1,21 +1,18 @@
 {% extends 'PackageTaskBundle::base.html.twig' %}
 
 {% block title %}
-    Labels
+    {{ 'Labels'|trans }}
 {% endblock %}
 {% block body %}
     {{ parent() }}
     <article>
-        <a href="{{ path('PackageTaskBundle:Labels:Add')}}">{{ 'Add Labels'|trans }}</a>
+        <a href="{{ path('PackageTaskBundle:Labels:Add')}}">{{ 'Add Label'|trans }}</a>
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
-                <th{% if pagination.isSorted('a.name') %}
-                    class="sorted"{% endif %}>
-                    {{ knp_pagination_sortable(pagination, 'Name', 'a.name') }}
-                </th>
-                <th>Action</th>
+                <th>ID</th>
+                <th>{{ 'Name'|trans }}</th>
+                <th>{{ 'Action'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -24,8 +21,8 @@
                     <td>{{ labels.id }}</td>
                     <td>{{ labels.name }}</td>
                     <td>
-                        <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Labels:Edit', {'id':labels.id}) }}">edit</a>
-                        <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Labels:Remove', {'id':labels.id}) }}">remove</a>
+                        <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Labels:Edit', {'id':labels.id}) }}">{{ 'Edit'|trans }}</a>
+                        <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Labels:Remove', {'id':labels.id}) }}">{{ 'Remove'|trans }}</a>
                     </td>
                 </tr>
             {% endfor %}

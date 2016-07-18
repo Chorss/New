@@ -30,23 +30,21 @@ class Projects
 
     /**
      * @Assert\Length(max=250)
-     * @Assert\IsNull()
      *
      * @ORM\Column(type="string", nullable=true, length=250)
      */
     private $description;
 
     /**
-     * @Assert\NotNull()
      * @Assert\DateTime()
+     * @Assert\NotNull()
      *
-     * @ORM\Column(type="datetime", length=50)
+     * @ORM\Column(type="datetime")
      */
     private $dateCreated;
 
     /**
      * @Assert\DateTime()
-     * @Assert\IsNull()
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -61,6 +59,7 @@ class Projects
     {
         $this->tasks = new ArrayCollection();
     }
+
 
     /**
      * Get id

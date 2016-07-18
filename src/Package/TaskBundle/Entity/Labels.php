@@ -29,7 +29,6 @@ class Labels
     private $name;
 
     /**
-     *
      * @ORM\OneToMany(targetEntity="Tasks", mappedBy="labels")
      */
     private $tasks;
@@ -38,5 +37,72 @@ class Labels
     {
         $this->tasks = new ArrayCollection();
     }
-    
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Labels
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Add task
+     *
+     * @param \Package\TaskBundle\Entity\Tasks $task
+     *
+     * @return Labels
+     */
+    public function addTask(\Package\TaskBundle\Entity\Tasks $task)
+    {
+        $this->tasks[] = $task;
+
+        return $this;
+    }
+
+    /**
+     * Remove task
+     *
+     * @param \Package\TaskBundle\Entity\Tasks $task
+     */
+    public function removeTask(\Package\TaskBundle\Entity\Tasks $task)
+    {
+        $this->tasks->removeElement($task);
+    }
+
+    /**
+     * Get tasks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
 }

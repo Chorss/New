@@ -21,6 +21,7 @@ class Priorities
 
     /**
      * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Length(max=50)
      *
      * @ORM\Column(type="string", length=50)
@@ -28,7 +29,7 @@ class Priorities
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="priorities", cascade={"remove"} )
+     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="priorities")
      */
     private $tasks;
 

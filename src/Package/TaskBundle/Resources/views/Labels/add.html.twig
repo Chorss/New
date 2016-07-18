@@ -1,9 +1,9 @@
-{# src/Pakiet/TaskBundle/Resources/views/Labels/add.html.twig #}
 {% extends 'PackageTaskBundle::base.html.twig' %}
 
+{% block title %}
+    {{ 'Labels'|trans }}
+{% endblock %}
 {% block body %}
     {{ parent() }}
-    <div class="row">
-        {{ form(form) }}
-    </div>
+    {{ form(form) }}
 {% endblock %}

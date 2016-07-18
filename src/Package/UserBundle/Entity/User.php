@@ -62,7 +62,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @ORM\Column(type="string", name="action_token", length = 30, nullable = true)
      */
-    private $actionToken;
+    private $actionToken = null;
 
     /**
      * @ORM\Column(type="boolean", name="account_non_expired")
@@ -182,4 +182,281 @@ class User implements AdvancedUserInterface, \Serializable
             ) = unserialize($serialized);
     }
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     *
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Set roles
+     *
+     * @param array $roles
+     *
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Set actionToken
+     *
+     * @param string $actionToken
+     *
+     * @return User
+     */
+    public function setActionToken($actionToken)
+    {
+        $this->actionToken = $actionToken;
+
+        return $this;
+    }
+
+    /**
+     * Get actionToken
+     *
+     * @return string
+     */
+    public function getActionToken()
+    {
+        return $this->actionToken;
+    }
+
+    /**
+     * Set accountNonExpired
+     *
+     * @param boolean $accountNonExpired
+     *
+     * @return User
+     */
+    public function setAccountNonExpired($accountNonExpired)
+    {
+        $this->accountNonExpired = $accountNonExpired;
+
+        return $this;
+    }
+
+    /**
+     * Get accountNonExpired
+     *
+     * @return boolean
+     */
+    public function getAccountNonExpired()
+    {
+        return $this->accountNonExpired;
+    }
+
+    /**
+     * Set accountNonLocked
+     *
+     * @param boolean $accountNonLocked
+     *
+     * @return User
+     */
+    public function setAccountNonLocked($accountNonLocked)
+    {
+        $this->accountNonLocked = $accountNonLocked;
+
+        return $this;
+    }
+
+    /**
+     * Get accountNonLocked
+     *
+     * @return boolean
+     */
+    public function getAccountNonLocked()
+    {
+        return $this->accountNonLocked;
+    }
+
+    /**
+     * Set credentialsNonExpired
+     *
+     * @param boolean $credentialsNonExpired
+     *
+     * @return User
+     */
+    public function setCredentialsNonExpired($credentialsNonExpired)
+    {
+        $this->credentialsNonExpired = $credentialsNonExpired;
+
+        return $this;
+    }
+
+    /**
+     * Get credentialsNonExpired
+     *
+     * @return boolean
+     */
+    public function getCredentialsNonExpired()
+    {
+        return $this->credentialsNonExpired;
+    }
+
+    /**
+     * Set isEnabled
+     *
+     * @param boolean $isEnabled
+     *
+     * @return User
+     */
+    public function setIsEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    /**
+     * Get isEnabled
+     *
+     * @return boolean
+     */
+    public function getIsEnabled()
+    {
+        return $this->isEnabled;
+    }
+
+    /**
+     * Set dateRegister
+     *
+     * @param \DateTime $dateRegister
+     *
+     * @return User
+     */
+    public function setDateRegister($dateRegister)
+    {
+        $this->dateRegister = $dateRegister;
+
+        return $this;
+    }
+
+    /**
+     * Get dateRegister
+     *
+     * @return \DateTime
+     */
+    public function getDateRegister()
+    {
+        return $this->dateRegister;
+    }
+
+    /**
+     * Set lastActivity
+     *
+     * @param \DateTime $lastActivity
+     *
+     * @return User
+     */
+    public function setLastActivity($lastActivity)
+    {
+        $this->lastActivity = date_timestamp_get($lastActivity);
+
+        return $this;
+    }
+
+    /**
+     * Get lastActivity
+     *
+     * @return \DateTime
+     */
+    public function getLastActivity()
+    {
+        return date_timestamp_set(new \DateTime(), $this->lastActivity);
+    }
+
+    /**
+     * Add task
+     *
+     * @param \Package\TaskBundle\Entity\Tasks $task
+     *
+     * @return User
+     */
+    public function addTask(\Package\TaskBundle\Entity\Tasks $task)
+    {
+        $this->tasks[] = $task;
+
+        return $this;
+    }
+
+    /**
+     * Remove task
+     *
+     * @param \Package\TaskBundle\Entity\Tasks $task
+     */
+    public function removeTask(\Package\TaskBundle\Entity\Tasks $task)
+    {
+        $this->tasks->removeElement($task);
+    }
+
+    /**
+     * Get tasks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
 }

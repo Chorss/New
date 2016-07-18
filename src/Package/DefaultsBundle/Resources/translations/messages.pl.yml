@@ -1,4 +1,60 @@
+#---------Defaults-------------
 Main pages: Strona Główna
+Name: Nazwa
+Action: Akcje
+View: Szczegóły
+Date: Data
+Edit: Edytuj
+Remove: Usuń
+
+#---------Labels------------
+Label: Etykieta
+Labels: Etykiety
+Label not found: Etykieta został nie znaleziona
+Add Label: Dodaj etykietę
+Added label: Dodano nową etykiete
+Label modified: Etykieta została zmodifikowana
+Label removed: Etykieta została usunięta
+
+#---------Status------------
+Status: Status
+Statuses: Statusy
+Status not found: Status został nie znaleziony
+Add status: Dodaj status
+Added status: Dodano nowy status
+Status modified: Status został zmodifikowany
+Status removed: Status został usunięty
+
+#---------Priorities------------
+Priority: Priorytet
+Priorities: Priorytety
+Priority not found: Priorytet została nie znaleziona
+Add priority: Dodaj priorytet
+Added priority: Dodano nowy priorytet
+Priority modified: Piorytet został zmodifikowany
+Priority removed: Piorytet został usunięty
+
+#---------Task------------
+Task: Zadanie
+Tasks: Zadania
+Task not found: Task został nie znaleziony
+Add task: Dodaj zadanie
+Added task: Dodano zadanie
+Task modified: Zadanie zostało zmodyfikowane
+Task removed: Zadanie zostało usunięte
+
+#-----------Login-----------
+Login: Login
+Password: Hasło
+Remember me: Pamiętaj mnie
+Login in: Zaloguj
+
+#-------Register----------
+Username: Username
+Email: Email
+Password: Hasło
+Repeat password: Powtórz hasło
+Submit: Wyślij
 
 User not found: Uzytkownik nie został znaleziony
 Problem with base: Jest problem z bazą danych
@@ -9,16 +65,3 @@ New password: Nowe hasło
 The user you have already registered: Użytkownik jest już zarejestrowany
 Activate account: Aktywacja konta
 Don't set a new password: Nie ustawiono nowego hasła!
-
-#---------Labels------------
-Labels: Etykiety
-Add Labels: Dodaj etykietę
-
-#---------Status------------
-Status: Status
-
-#---------Priorities------------
-Priorities: Priorytety
-
-#---------Task------------
-Task: Zadanie

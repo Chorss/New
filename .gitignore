@@ -10,5 +10,11 @@
 /vendor/
 /bin/
 /composer.phar
-composer.lock
+/composer.lock
 /.idea
+app/cache/
+app/logs/
+src/Package/DefaultsBundle/Resources/config/
+tests/
+web/css/
+web/js/

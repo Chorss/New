@@ -23,14 +23,14 @@ class LoginType extends AbstractType
                 'label' => 'Login'
             ))
             ->add('password', PasswordType::class, array(
-                'label' => 'password'
+                'label' => 'Password'
             ))
             ->add('remember_me', CheckboxType::class, array(
-                'label' => 'Pamiętaj mnie',
+                'label' => 'Remember me',
                 'required' => false,
             ))
             ->add('save', SubmitType::class, array(
-                'label' => 'Zaloguj'
+                'label' => 'Login in'
             ));
     }
 }

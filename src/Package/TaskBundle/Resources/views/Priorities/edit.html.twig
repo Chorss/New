@@ -1,6 +1,9 @@
-{# src/Pakiet/TaskBundle/Resources/views/Priorities/edit.html.twig #}
-{% extends 'base.html.twig' %}
+{% extends 'PackageTaskBundle::base.html.twig' %}
 
+{% block title %}
+    {{ 'Priorities'|trans }}
+{% endblock %}
 {% block body %}
+    {{ parent() }}
     {{ form(form) }}
 {% endblock %}

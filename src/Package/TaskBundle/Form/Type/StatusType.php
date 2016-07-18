@@ -4,11 +4,10 @@ namespace Package\TaskBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class AddStatusType extends AbstractType
+class StatusType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -16,6 +15,6 @@ class AddStatusType extends AbstractType
             ->add('name', TextType::class, array(
                 'label' => 'Name'
             ))
-            ->add('save', SubmitType::class, array('label' => 'Send status'));
+            ->add('submit', SubmitType::class, array('label' => 'Submit'));
     }
 }

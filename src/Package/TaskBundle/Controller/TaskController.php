@@ -5,13 +5,15 @@ namespace Package\TaskBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-
 use Package\TaskBundle\Entity\Tasks;
 use Package\TaskBundle\Form\Type;
 
 /**
  * @Route("/task")
+ * @Security("has_role('ROLE_USER')")
  */
 class TaskController extends Controller
 {
@@ -22,6 +24,7 @@ class TaskController extends Controller
      *     requirements={"page": "\d+"},
      *     name="PackageTaskBundle:Task:Index"
      * )
+     * @Method({"GET", "HEAD"})
      *
      * @Template
      */
@@ -43,16 +46,17 @@ class TaskController extends Controller
      *     "/view/{id}",
      *     name="PackageTaskBundle:Task:View"
      * )
+     * @Method({"GET", "POST", "HEAD"})
      *
      * @Template
      */
     public function viewAction($id)
     {
         $task = $this->getDoctrine()->getRepository('PackageTaskBundle:Tasks')->find( (int)$id );
-        $trans = $this->get('translator');
+        $translator = $this->get('translator');
 
         if(is_null($task)){
-            $this->addFlash('danger', $trans->trans('Is null task'));
+            $this->addFlash('danger', $translator->trans('Task not found'));
             return $this->redirectToRoute('PackageTaskBundle:Task:Index');
         }
 
@@ -66,27 +70,33 @@ class TaskController extends Controller
      *     "/add",
      *     name="PackageTaskBundle:Task:Add"
      * )
+     * @Method({"GET", "POST", "HEAD"})
      *
      * @Template
      */
     public function addAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $translator = $this->get('translator');
+
+        $user = $this->getUser();
         $tasks = new Tasks;
         $tasks->setDateCreated(new \DateTime());
-        $form = $this->createForm(new Type\AddTaskType(), $tasks);
-
+        $tasks->setAuthor(
+            $em->getRepository('PackageUserBundle:User')->findOneBy(array('id' => $user->getId()))
+        );
+        $form = $this->createForm(new Type\TaskType(), $tasks);
         $form->handleRequest($request);
 
-        if($request->isMethod('POST') && $form->isValid())
+        if($form->isSubmitted() && $form->isValid())
         {
             try{
                 $em->persist($tasks);
                 $em->flush();
-                $this->addFlash('success', 'Add task');
-                return $this->redirectToRoute('PackageTaskBundle:Task:Index');
+                $this->addFlash('success', $translator->trans('Added task'));
             }catch (\Exception $e){
                 $this->addFlash('danger', $e->getMessage());
+            }finally{
                 return $this->redirectToRoute('PackageTaskBundle:Task:Index');
             }
         }
@@ -101,30 +111,32 @@ class TaskController extends Controller
      *     "/edit/{id}",
      *     name="PackageTaskBundle:Task:Edit"
      * )
+     * @Method({"GET", "POST", "HEAD"})
      *
      * @Template
      */
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $task = $em->getRepository('PackageTaskBundle:Tasks')->find((int)$id);
+        $task = $em->getRepository('PackageTaskBundle:Tasks')->find( (int)$id);
+        $translator = $this->get('translator');
 
         if(is_null($task)){
-            $this->addFlash('danger', 'Is null task');
+            $this->addFlash('danger', $translator->trans('Task not found'));
             return $this->redirectToRoute('PackageTaskBundle:Task:Index');
         }
 
-        $form = $this->createForm(new Type\AddTaskType(), $task);
+        $form = $this->createForm(new Type\TaskType(), $task);
         $form->handleRequest($request);
 
-        if($request->isMethod('POST') && $form->isValid()){
+        if($form->isSubmitted() && $form->isValid()){
             try{
                 $em->persist($task);
                 $em->flush();
-                $this->addFlash('success','edit task');
-                return $this->redirectToRoute('PackageTaskBundle:Task:View', array( 'id'=>$task->getId() ));
-            }catch (Exception $e){
+                $this->addFlash('success', $translator->trans('Task modified'));
+            }catch (\Exception $e){
                 $this->addFlash('danger', $e->getMessage());
+            }finally{
                 return $this->redirectToRoute('PackageTaskBundle:Task:Index');
             }
         }
@@ -139,25 +151,26 @@ class TaskController extends Controller
      *     "/remove/{id}",
      *     name="PackageTaskBundle:Task:Remove"
      * )
+     * @Method({"GET", "POST", "HEAD"})
      */
     public function removeAction($id)
     {
+        $translator = $this->get('translator');
         $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('PackageTaskBundle:Tasks');
-        $task = $repo->find($id);
+        $task = $em->getRepository('PackageTaskBundle:Tasks')->find( (int)$id);
 
         if(is_null($task)){
-            $this->addFlash('danger', 'In null task');
+            $this->addFlash('danger', $translator->trans('Task not found'));
             return $this->redirectToRoute('PackageTaskBundle:Task:Index');
         }
 
         try{
             $em->remove($task);
             $em->flush();
-            $this->addFlash('success', 'Remove task');
-            return $this->redirectToRoute('PackageTaskBundle:Task:Index');
-        }catch (Exception $e){
+            $this->addFlash('success', $translator->trans('Task removed'));
+        }catch (\Exception $e){
             $this->addFlash('danger', $e->getMessage());
+        }finally{
             return $this->redirectToRoute('PackageTaskBundle:Task:Index');
         }
     }

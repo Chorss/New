@@ -1,7 +1,9 @@
-{# src/Pakiet/TaskBundle/Resources/views/Task/edit.html.twig #}
-{% extends 'base.html.twig' %}
+{% extends 'PackageTaskBundle::base.html.twig' %}
 
+{% block title %}
+    {{ 'Tasks'|trans }}
+{% endblock %}
 {% block body %}
-    <h1>Task edits!</h1>
+    {{ parent() }}
     {{ form(form) }}
 {% endblock %}

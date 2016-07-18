@@ -1,20 +1,21 @@
 <?php
-namespace Pakiet\TaskBundle\Form\Type;
+
+namespace Package\TaskBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class AddPrioritiesType extends AbstractType
+class LabelsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name', TextType::class, array(
-                'label' => 'name'
+                'label' => 'Name'
             ))
-            ->add('save', SubmitType::class, array('label' => 'Send priorities'));
+            ->add('submit', SubmitType::class, array(
+                'label' => 'Submit'));
     }
 }

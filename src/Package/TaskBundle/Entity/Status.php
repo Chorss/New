@@ -21,17 +21,15 @@ class Status
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(
-     *     max=50,
-     *     maxMessage = "Your titleee cannot be longer than {{ limit }} characters"
-     * )
+     * @Assert\NotNull()
+     * @Assert\Length(max=50)
      *
      * @ORM\Column(type="string", length=50)
      */
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="status", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="status")
      */
     private $tasks;
 

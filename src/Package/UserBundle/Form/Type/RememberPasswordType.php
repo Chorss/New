@@ -19,14 +19,14 @@ class RememberPasswordType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, array(
-            'label' => 'Twój email',
+            'label' => 'Email',
             'constraints' => array(
                 new Assert\NotBlank(),
                 new Assert\Email()
             )
             ))
             ->add('submit', SubmitType::class, array(
-                'label' => 'Przypomnij hasło'
+                'label' => 'Submit'
             ));
     }
 }

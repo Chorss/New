@@ -42,4 +42,3 @@ security:
 
    access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/task, roles: ROLE_ADMIN }

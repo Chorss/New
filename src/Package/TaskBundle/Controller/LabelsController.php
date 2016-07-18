@@ -5,13 +5,15 @@ namespace Package\TaskBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-
-use Pakiet\TaskBundle\Entity\Labels;
-use Pakiet\TaskBundle\Form\Type;
+use Package\TaskBundle\Form\Type\LabelsType;
+use Package\TaskBundle\Entity\Labels;
 
 /**
  * @Route("/labels")
+ * @Security("has_role('ROLE_USER')")
  */
 class LabelsController extends Controller
 {
@@ -22,6 +24,7 @@ class LabelsController extends Controller
      *     requirements={"page": "\d+"},
      *     name="PackageTaskBundle:Labels:Index"
      * )
+     * @Method({"GET", "HEAD"})
      *
      * @Template
      */
@@ -44,27 +47,28 @@ class LabelsController extends Controller
      *     "/add",
      *     name="PackageTaskBundle:Labels:Add"
      * )
+     * @Method({"GET", "POST", "HEAD"})
      *
      * @Template
      */
     public function addAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $translator = $this->get('translator');
         $label = new Labels();
 
-        $form = $this->createForm(new Type\AddLabelsType(), $label);
-
+        $form = $this->createForm(new LabelsType(), $label);
         $form->handleRequest($request);
 
-        if($request->isMethod('POST') && $form->isValid())
+        if($form->isSubmitted() && $form->isValid())
         {
             try{
                 $em->persist($label);
                 $em->flush();
-                $this->addFlash('success', 'Add labels');
-                return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
-            }catch (Exception $e){
+                $this->addFlash('success', $translator->trans('Added label'));
+            }catch (\Exception $e){
                 $this->addFlash('danger', $e->getMessage());
+            }finally{
                 return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
             }
         }
@@ -79,29 +83,31 @@ class LabelsController extends Controller
      *     "/edit/{id}",
      *     name="PackageTaskBundle:Labels:Edit"
      * )
+     * @Method({"GET", "POST", "HEAD"})
      *
      * @Template
      */
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $translator = $this->get('translator');
         $label = $em->getRepository('PackageTaskBundle:Labels')->find( (int)$id );
 
         if(is_null($label)){
-            $this->addFlash('danger', 'Is null label');
+            $this->addFlash('danger', $translator->trans('Label not found'));
             return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
         }
 
-        $form = $this->createForm(new Type\AddLabelsType(), $label);
+        $form = $this->createForm(new LabelsType(), $label);
         $form->handleRequest($request);
 
-        if($request->isMethod('POST') && $form->isValid()){
+        if($form->isSubmitted() && $form->isValid()){
             try{
                 $em->persist($label);
                 $em->flush();
-                $this->addFlash('success', 'edit label');
-                return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
-            }catch (Exception $e){
+                $this->addFlash('success', $translator->trans('Label modified'));
+                return $this->redirectToRoute('PackageTaskBundle:Labels:Edit', array('id' => (int)$id));
+            }catch (\Exception $e){
                 $this->addFlash('danger', $e->getMessage());
                 return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
             }
@@ -117,26 +123,28 @@ class LabelsController extends Controller
      *     "/remove/{id}",
      *     name="PackageTaskBundle:Labels:Remove"
      * )
+     * @Method({"GET", "POST", "HEAD"})
      *
      * @Template
      */
     public function removeAction($id)
     {
         $em = $this->getDoctrine()->getManager();
+        $translator = $this->get('translator');
         $label = $em->getRepository('PackageTaskBundle:Labels')->find( (int)$id );
 
         if(is_null($label)){
-            $this->addFlash('danger', 'In null label');
+            $this->addFlash('danger', $translator->trans('Label not found'));
             return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
         }
 
         try{
             $em->remove($label);
             $em->flush();
-            $this->addFlash('success', 'Remove labels');
-            return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
-        }catch (Exception $e){
+            $this->addFlash('success', $translator->trans('Label removed'));
+        }catch (\Exception $e){
             $this->addFlash('danger', $e->getMessage());
+        }finally{
             return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
         }
     }
