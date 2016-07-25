@@ -6,6 +6,7 @@ View: Szczegóły
 Date: Data
 Edit: Edytuj
 Remove: Usuń
+Version: Wersja 1.0
 
 #---------Labels------------
 Label: Etykieta
@@ -65,3 +66,4 @@ New password: Nowe hasło
 The user you have already registered: Użytkownik jest już zarejestrowany
 Activate account: Aktywacja konta
 Don't set a new password: Nie ustawiono nowego hasła!
+Remind password: Przypomnij hasło

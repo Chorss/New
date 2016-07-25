@@ -5,10 +5,10 @@
 {% endblock %}
 {% block body %}
     {{ parent() }}
-    {#<h1>{{ 'Login'|trans }}</h1>#}
+
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
     {{ form(form, {'action': path('_check_path')}) }}
-    <a href="{{ path('PackageUserBundle:Security:RememberPassword') }}">Przypomnij hasło</a>
+    <a href="{{ path('PackageUserBundle:Security:RememberPassword') }}">{{ 'Remind password'|trans }}</a>
 {% endblock %}

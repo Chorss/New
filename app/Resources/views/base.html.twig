@@ -8,13 +8,14 @@
             {% stylesheets filter='cssrewrite'
                 '@PackageDefaultsBundle/Resources/public/css/bootstrap.css'
                 '@PackageDefaultsBundle/Resources/public/css/bootstrap-theme.css'
+                '@PackageDefaultsBundle/Resources/public/css/style.css'
             %}
             <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
         {% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-default navbar-static-top navbar-inverse" >
+        <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" >
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#todo-navbar-1">
@@ -27,22 +28,26 @@
                 </div>
                 <div class="collapse navbar-collapse" id="todo-navbar-1">
                     <ul class="nav navbar-nav ">
-                        <li><a href="{{ path('PackageTaskBundle:Task:Index') }}">{{ 'Task'|trans }}</a></li>
-                        <li><a href="{{ path('PackageTaskBundle:Status:Index') }}">{{ 'Status'|trans }}</a></li>
-                        <li><a href="{{ path('PackageTaskBundle:Priorities:Index') }}">{{ 'Priorities'|trans }}</a></li>
-                        <li><a href="{{ path('PackageTaskBundle:Labels:Index') }}">{{ 'Labels'|trans }}</a></li>
+                        {% if is_granted('ROLE_USER') %}
+                            <li><a href="{{ path('PackageTaskBundle:Task:Index') }}">{{ 'Task'|trans }}</a></li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li><a href="{{ path('PackageTaskBundle:Status:Index') }}">{{ 'Status'|trans }}</a></li>
+                                <li><a href="{{ path('PackageTaskBundle:Priorities:Index') }}">{{ 'Priorities'|trans }}</a></li>
+                            {% endif %}
+                            <li><a href="{{ path('PackageTaskBundle:Labels:Index') }}">{{ 'Labels'|trans }}</a></li>
+                        {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                    <b>{{ app.user.username }}</b>
+                                {% if is_granted('ROLE_USER') %}
+                                <b>{{ app.user.username }}</b>
                                 {% else %}
                                     <b>Menu</b>
                                 {% endif %}
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                {% if app.user.username is not defined %}
+                                {% if app.user %}
                                     <li><a href="{{ path('PackageUserBundle:Security:Login') }}">Login</a></li>
                                     <li><a href="{{ path('PackageUserBundle:Security:Register') }}">Rejestracja</a></li>
                                 {% else %}
@@ -54,7 +59,7 @@
                 </div>
             </div>
         </nav>
-        <div class="container">
+        <main class="container">
             {% block body %}
                 <div class="row">
                     {% for type,messages in app.session.flashbag.all() %}
@@ -64,7 +69,7 @@
                     {% endfor %}
                 </div>
             {% endblock %}
-        </div>
+        </main>
         {% block javascripts %}
             {% javascripts
                 '@PackageDefaultsBundle/Resources/public/js/jquery.js'
@@ -72,5 +77,6 @@
             <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
+        {{ include('footer.html.twig') }}
     </body>
 </html>

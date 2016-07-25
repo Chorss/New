@@ -1,0 +1,14 @@
+main {
+    padding-top: 70px;
+    min-height: 785px;
+}
+.footer {
+    padding: 40px 0;
+    background-color: #2A2730;
+    color: #99979C;
+}
+.footer-nav {
+    padding: 0 10px;
+    text-decoration: none;
+    text-align: center;
+}
