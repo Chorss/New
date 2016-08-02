@@ -2,7 +2,6 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@PackageDefaultsBundle/Resources/config/services.yml" }
     - { resource: "@PackageTaskBundle/Resources/config/services.yml" }
     - { resource: "@PackageUserBundle/Resources/config/services.yml" }
 
