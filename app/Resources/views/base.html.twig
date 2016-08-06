@@ -47,7 +47,7 @@
                                 {% endif %}
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                {% if app.user %}
+                                {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
                                     <li><a href="{{ path('PackageUserBundle:Security:Login') }}">Login</a></li>
                                     <li><a href="{{ path('PackageUserBundle:Security:Register') }}">Rejestracja</a></li>
                                 {% else %}
