@@ -44,6 +44,16 @@ class UserManagerService
      */
     private $userMailer;
 
+    /**
+     * UserManagerService constructor.
+     *
+     * @param Doctrine $doctrine
+     * @param Router $router
+     * @param Templating $templating
+     * @param DataCollectorTranslator $translator
+     * @param UserPasswordEncoder $passwordEncoder
+     * @param UserMailerService $user_mailer
+     */
     function __construct(Doctrine $doctrine, Router $router, Templating $templating, DataCollectorTranslator $translator, UserPasswordEncoder $passwordEncoder, UserMailerService $user_mailer)
     {
         $this->doctrine = $doctrine;
@@ -52,48 +62,6 @@ class UserManagerService
         $this->translator = $translator;
         $this->passwordEncoder = $passwordEncoder;
         $this->userMailer = $user_mailer;
-    }
-
-    /**
-     * Generate action token
-     *
-     * @return string
-     */
-    private function generateActionToken() {
-        return substr(sha1(uniqid(NULL, TRUE)), 0, 30);
-    }
-
-    /**
-     * Generate password
-     *
-     * @param $length - Length
-     * @param bool|false $char - Char
-     * @param bool|false $number - Number
-     * @param bool|false $special - Special character
-     * @return string - Password
-     */
-    private function generatePassword($length = 8, $char = false, $number = false, $special = false)
-    {//TODO possible to improve method
-        $text = "";
-
-        if ($char) {
-            $text .= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        }
-
-        if ($number) {
-            $text .= "0123456789";
-        }
-
-        if ($special) {
-            $text .= "?><|:}{+_)(*&^%$#@!";
-        }
-
-        $password = '';
-        for ($i = 0; $i < $length; $i++) {
-            $password .= $text[mt_rand(0, strlen($text))];
-        }
-
-        return $password;
     }
 
     public function sendResetPasswordLink($userEmail)
@@ -214,6 +182,7 @@ class UserManagerService
         }catch (\Exception $e){
             throw new \Exception($this->translator->trans("Problem with sending messages"));
         }
+
         return true;
     }
 
@@ -254,6 +223,49 @@ class UserManagerService
         }catch (\Exception $e) {
             throw new \Exception($this->translator->trans("Problem with base"));
         }
+
         return true;
+    }
+
+    /**
+     * Generate action token
+     *
+     * @return string
+     */
+    private function generateActionToken() {
+        return substr(sha1(uniqid(NULL, TRUE)), 0, 30);
+    }
+
+    /**
+     * Generate password
+     *
+     * @param $length - Length
+     * @param bool|false $char - Char
+     * @param bool|false $number - Number
+     * @param bool|false $special - Special character
+     * @return string - Password
+     */
+    private function generatePassword($length = 8, $char = false, $number = false, $special = false)
+    {
+        $text = "";
+
+        if ($char) {
+            $text .= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        }
+
+        if ($number) {
+            $text .= "0123456789";
+        }
+
+        if ($special) {
+            $text .= "?><|:}{+_)(*&^%$#@!";
+        }
+
+        $password = '';
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $text[mt_rand(0, strlen($text))];
+        }
+
+        return $password;
     }
 }

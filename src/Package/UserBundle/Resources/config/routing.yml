@@ -1,5 +1,10 @@
-common_user_user:
+common_user_security:
     resource: "@PackageUserBundle/Controller/SecurityController.php"
+    type:     annotation
+    prefix:   /
+
+common_user_user:
+    resource: "@PackageUserBundle/Controller/UserController.php"
     type:     annotation
     prefix:   /
 

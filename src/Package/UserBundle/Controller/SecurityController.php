@@ -138,9 +138,12 @@ class SecurityController extends Controller
     public function changePasswordAction()
     {
         $em = $this->getDoctrine()->getManager();
-//        if(){
-//@todo
-//        }
+        $translator = $this->get('translator');
+
+        //        if(){
+        //@todo
+        //        }
+
         try{
             $userManager = $this->get('user_manager');
             $userManager->changePassword($user);

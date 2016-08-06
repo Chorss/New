@@ -35,13 +35,21 @@ class UserMailerService
      * @var mixed Body
      */
     private $body;
-//TODO dorobić dokumentacje
+
+    /**
+     * UserMailerService constructor.
+     *
+     * @param \Swift_Mailer $swiftMailer
+     * @param $fromEmail string Form Email
+     * @param $fromName string Name email
+     */
     function __construct(\Swift_Mailer $swiftMailer, $fromEmail, $fromName) {
         $this->swiftMailer = $swiftMailer;
-        $this->fromEmail = $fromEmail;
-        $this->fromName = $fromName;
     }
 
+    /**
+     * Send email
+     */
     public function sendEmail()
     {
         $message = \Swift_Message::newInstance()
@@ -54,10 +62,9 @@ class UserMailerService
     }
 
     /**
-     * @param $fromEmail
-     * @return $this
+     * @param string $fromEmail
+     * @return UserMailerService
      */
-    //options
     public function setFromEmail($fromEmail)
     {
         $this->fromEmail = $fromEmail;
@@ -65,10 +72,9 @@ class UserMailerService
     }
 
     /**
-     * @param $fromName
-     * @return $this
+     * @param string $fromName
+     * @return UserMailerService
      */
-    //options
     public function setFromName($fromName)
     {
         $this->fromName = $fromName;
@@ -76,8 +82,8 @@ class UserMailerService
     }
 
     /**
-     * @param $subject
-     * @return $this
+     * @param string $subject
+     * @return UserMailerService
      */
     public function setSubject($subject)
     {
@@ -86,8 +92,8 @@ class UserMailerService
     }
 
     /**
-     * @param $user
-     * @return $this
+     * @param User $user
+     * @return UserMailerService
      */
     public function setUser($user)
     {
@@ -96,8 +102,8 @@ class UserMailerService
     }
 
     /**
-     * @param $body
-     * @return $this
+     * @param mixed $body
+     * @return UserMailerService
      */
     public function setBody($body)
     {
