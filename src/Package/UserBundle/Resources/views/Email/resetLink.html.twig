@@ -1,7 +1,4 @@
 {% block content %}
-<a>
-    Dostaliśmy prośbę o zresetowanie hasła do Twojego konta.
-    Poniżej znajduje się link, dzięki któremu możesz tego dokonać.
-</a>
+<a>{{ 'Link to reset your password'|trans }}</a>
 <a href="{{ resetUrl }}">{{ resetUrl }}</a>
 {% endblock %}

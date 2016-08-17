@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class UserController extends Controller
 {
-
     /**
      * @Route(
      *     "/",
@@ -68,6 +67,7 @@ class UserController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route(
      *      "/change-role",
      *      name = "PackageUserBundle:User:ChangeRole"

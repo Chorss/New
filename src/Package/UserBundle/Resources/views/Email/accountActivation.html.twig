@@ -1,6 +1,6 @@
 {% extends "PackageUserBundle:Email:base.html.twig" %}
 
 {% block content %}
-    <a>Aby aktywować konto kliknij w link poniżej:</a>
+    <a>{{ 'To activate your account click on the link below'|trans }}:</a>
     <a href="{{ activationUrl }}">{{ activationUrl }}</a>
 {% endblock %}
