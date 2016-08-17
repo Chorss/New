@@ -127,41 +127,6 @@ class SecurityController extends Controller
 
     /**
      * @Route(
-     *     "/change-password",
-     *     name = "PackageUserBundle:Security:ChangePassword"
-     * )
-     * @Method({"GET", "POST", "HEAD"})
-     *
-     * Template
-     */
-    public function changePasswordAction(Request $request)
-    {
-        $translator = $this->get('translator');
-        $user = $this->getDoctrine()->getRepository("PackageUserBundle:User")->find($this->getUser()->getId());
-
-        if (is_null($user)) {
-            $this->addFlash("error", $translator->trans('User not found'));
-            return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
-        }
-
-        $form = $this->createForm(new Type\RememberPasswordType());
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $userManager = $this->get('user_manager');
-                $userManager->changePassword($user);
-                $this->addFlash('success', $translator->trans('Zmieniłeś hasło'));
-            } catch (\Exception $e) {
-                $this->addFlash('danger', $e->getMessage());
-            } finally {
-                return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
-            }
-        }
-    }
-
-    /**
-     * @Route(
      *      "/account-activation/{actionToken}",
      *      name = "PackageUserBundle:Security:ActivateAccount"
      * )
@@ -179,40 +144,5 @@ class SecurityController extends Controller
         } finally {
             return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
         }
-    }
-
-    /**
-     * @Route(
-     *      "/change-role",
-     *      name = "PackageUserBundle:Security:ChangeRole"
-     * )
-     * @Method({"GET", "POST", "HEAD"})
-     *
-     * @Template
-     */
-    public function changeRoleAction(Request $request)
-    {
-        $translator = $this->get('translator');
-
-        $form = $this->createForm(new Type\ChangeRoleType());
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $userManager = $this->get('user_manager');
-                $username = $form->get('username')->getData();
-                $role = $form->get('role')->getData();
-                $userManager->changeRole($username, $role);
-                $this->addFlash('success', $translator->trans("Changed role"));
-                return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
-            } catch (\Exception $e) {
-                $this->addFlash('danger', $e->getMessage());
-                return $this->redirectToRoute('PackageUserBundle:Security:ChangeRole');
-            }
-        }
-
-        return array(
-            'form' => $form->createView()
-        );
     }
 }

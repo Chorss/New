@@ -72,15 +72,15 @@ class UserManagerService
         $user = $em->getRepository('PackageUserBundle:User')
             ->findOneByEmail($userEmail);
 
-        if($user === null) {
+        if ($user === null) {
             throw new \Exception($this->translator->trans("User not found"));
         }
 
-        try{
+        try {
             $user->setActionToken($this->generateActionToken());
             $em->persist($user);
             $em->flush();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception($this->translator->trans("Problem with base"));
         }
 
@@ -95,13 +95,13 @@ class UserManagerService
             'resetUrl' => $resetUrl
         ));
 
-        try{
+        try {
             $this->userMailer
                 ->setUser($user)
                 ->setSubject($this->translator->trans("Link to reset your password"))
                 ->setBody($emailBody)
                 ->sendEmail();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new \Exception($this->translator->trans("Problem with sending messages"));
         }
         return true;
@@ -113,19 +113,19 @@ class UserManagerService
         $user = $em->getRepository('PackageUserBundle:User')
             ->findOneByActionToken($actionToken);
 
-        if($user === null){
+        if ($user === null) {
             throw new \Exception($this->translator->trans("Incorrect parameters action"));
         }
 
         $plainPassword = $this->generatePassword(10, true, true);
         $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword);
 
-        try{
+        try {
             $user->setPassword($encodedPassword);
             $user->setActionToken(null);
             $em->persist($user);
             $em->flush();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception($this->translator->trans("Problem with base"));
         }
 
@@ -133,14 +133,14 @@ class UserManagerService
             'plainPassword' => $plainPassword
         ));
 
-        try{
+        try {
             $this->userMailer
                 ->setSubject($this->translator->trans("New password"))
                 ->setUser($user)
                 ->setBody($emailBody)
                 ->sendEmail();
 
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new \Exception($this->translator->trans("Problem with sending messages"));
         }
         return true;
@@ -148,11 +148,11 @@ class UserManagerService
 
     public function registerUser(User $user)
     {
-        if($user->getId() !== null) {
+        if ($user->getId() !== null) {
             throw new \Exception($this->translator->trans("The user you have already registered"));
         }
 
-        try{
+        try {
             $password = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
             $user->setRoles(array('ROLE_USER'));
@@ -161,7 +161,7 @@ class UserManagerService
             $em = $this->doctrine->getManager();
             $em->persist($user);
             $em->flush();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception($this->translator->trans("Problem with base"));
         }
 
@@ -174,13 +174,13 @@ class UserManagerService
             'activationUrl' => $activationUrl
         ));
 
-        try{
+        try {
             $this->userMailer
                 ->setUser($user)
                 ->setSubject($this->translator->trans("Activate account"))
                 ->setBody($emailBody)
                 ->sendEmail();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception($this->translator->trans("Problem with sending messages"));
         }
 
@@ -193,35 +193,36 @@ class UserManagerService
         $user = $em->getRepository('PackageUserBundle:User')
             ->findOneByActionToken($actionToken);
 
-        if($user === null){
+        if ($user === null) {
             throw new \Exception($this->translator->trans("Incorrect parameters action"));
         }
 
-        try{
+        try {
             $user->setIsEnabled(true);
             $user->setActionToken(null);
             $em->persist($user);
             $em->flush();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception($this->translator->trans("Problem with base"));
         }
         return true;
     }
 
-    public function changePassword(User $user)
+    public function changePassword(User $user, String $password)
     {
-        if($user->getPlainPassword() == null){
+        if (is_null($password)) {
             throw new \Exception($this->translator->trans("Don't set a new password"));
         }
 
-        $password = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
-        $user->setPassword($password);
-        
-        try{
+        $user->setPassword(
+            $this->passwordEncoder->encodePassword($user, $password)
+        );
+
+        try {
             $em = $this->doctrine->getManager();
             $em->persist($user);
             $em->flush();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new \Exception($this->translator->trans("Problem with base"));
         }
 
@@ -241,11 +242,11 @@ class UserManagerService
         }
 
         $user->setRoles(array($role));
-        try{
+        try {
             $em = $this->doctrine->getManager();
             $em->persist($user);
             $em->flush();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new \Exception($this->translator->trans("Problem with base"));
         }
 
@@ -257,7 +258,8 @@ class UserManagerService
      *
      * @return string
      */
-    private function generateActionToken() {
+    private function generateActionToken()
+    {
         return substr(sha1(uniqid(NULL, TRUE)), 0, 30);
     }
 
