@@ -31,13 +31,13 @@ class SecurityController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            try{
+            try {
                 $userManager = $this->get('user_manager');
                 $userManager->registerUser($user);
-                $this->addFlash('success', $translator->trans('add user'));
-            }catch (\Exception $e){
+                $this->addFlash('success', $translator->trans('Registered user'));
+            } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
-            }finally{
+            } finally {
                 return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
             }
         }
@@ -86,16 +86,15 @@ class SecurityController extends Controller
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            try{
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
                 $userEmail = $form->get('email')->getData();
                 $userManager = $this->get('user_manager');
                 $userManager->sendResetPasswordLink($userEmail);
                 $this->addFlash('success', $translator->trans('Udało się przypomnieć hasło'));
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
-            }finally {
+            } finally {
                 return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
             }
         }
@@ -119,9 +118,9 @@ class SecurityController extends Controller
             $userManager = $this->get('user_manager');
             $userManager->resetPassword($actionToken);
             $this->addFlash('success', $translator->trans('Na Twój adres e-mail zostało wysłane nowe hasło!'));
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
-        }finally {
+        } finally {
             return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
         }
     }
@@ -135,26 +134,32 @@ class SecurityController extends Controller
      *
      * Template
      */
-    public function changePasswordAction()
+    public function changePasswordAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $translator = $this->get('translator');
+        $user = $this->getDoctrine()->getRepository("PackageUserBundle:User")->find($this->getUser()->getId());
 
-        //        if(){
-        //@todo
-        //        }
-
-        try{
-            $userManager = $this->get('user_manager');
-            $userManager->changePassword($user);
-            $this->addFlash('success', 'Zmieniłeś hasło');
-        }catch (\Exception $e){
-            $this->addFlash('error', $e->getMessage());
-        }finally {
+        if (is_null($user)) {
+            $this->addFlash("error", $translator->trans('User not found'));
             return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
         }
+
+        $form = $this->createForm(new Type\RememberPasswordType());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $userManager = $this->get('user_manager');
+                $userManager->changePassword($user);
+                $this->addFlash('success', $translator->trans('Zmieniłeś hasło'));
+            } catch (\Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
+            } finally {
+                return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
+            }
+        }
     }
-    
+
     /**
      * @Route(
      *      "/account-activation/{actionToken}",
@@ -171,8 +176,43 @@ class SecurityController extends Controller
             $this->addFlash('success', $translator->trans('Twoje konto zostało aktywowane!'));
         } catch (\Exception $e) {
             $this->addFlash('error', $e->getMessage());
-        }finally {
+        } finally {
             return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
         }
+    }
+
+    /**
+     * @Route(
+     *      "/change-role",
+     *      name = "PackageUserBundle:Security:ChangeRole"
+     * )
+     * @Method({"GET", "POST", "HEAD"})
+     *
+     * @Template
+     */
+    public function changeRoleAction(Request $request)
+    {
+        $translator = $this->get('translator');
+
+        $form = $this->createForm(new Type\ChangeRoleType());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $userManager = $this->get('user_manager');
+                $username = $form->get('username')->getData();
+                $role = $form->get('role')->getData();
+                $userManager->changeRole($username, $role);
+                $this->addFlash('success', $translator->trans("Changed role"));
+                return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
+                return $this->redirectToRoute('PackageUserBundle:Security:ChangeRole');
+            }
+        }
+
+        return array(
+            'form' => $form->createView()
+        );
     }
 }

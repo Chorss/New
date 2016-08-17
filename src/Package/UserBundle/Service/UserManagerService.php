@@ -3,6 +3,7 @@
 namespace Package\UserBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
+use Package\UserBundle\Exception\UserNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface as Templating;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
@@ -216,6 +217,30 @@ class UserManagerService
         $password = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
         $user->setPassword($password);
         
+        try{
+            $em = $this->doctrine->getManager();
+            $em->persist($user);
+            $em->flush();
+        }catch (\Exception $e) {
+            throw new \Exception($this->translator->trans("Problem with base"));
+        }
+
+        return true;
+    }
+
+    public function changeRole($username, $role)
+    {
+        $em = $this->doctrine->getManager();
+        $user = $em->getRepository("PackageUserBundle:User")->findOneBy(
+            array(
+                "username" => $username
+            ));
+
+        if (is_null($user)) {
+            throw new UserNotFoundException($this->translator->trans("User not found"));
+        }
+
+        $user->setRoles(array($role));
         try{
             $em = $this->doctrine->getManager();
             $em->persist($user);

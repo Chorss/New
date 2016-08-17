@@ -7,6 +7,11 @@ Date: Data
 Edit: Edytuj
 Remove: Usuń
 Version: Wersja 1.0
+Problem with base: Jest problem z bazą danych
+Incorrect parameters action: Błędne parametry akcji
+Admin: Administrator
+User: Użytkownik
+Role: Role
 
 #---------Labels------------
 Label: Etykieta
@@ -51,19 +56,25 @@ Remember me: Pamiętaj mnie
 Login in: Zaloguj
 
 #-------Register----------
+Register: Rejestracja
 Username: Username
 Email: Email
 Password: Hasło
 Repeat password: Powtórz hasło
 Submit: Wyślij
 
-User not found: Uzytkownik nie został znaleziony
-Problem with base: Jest problem z bazą danych
-Incorrect parameters action: Błędne parametry akcji
-Problem with sending messages: Problem z wysłaniem wiadomości
-Link to reset your password: Link do reserowania hasła
-New password: Nowe hasło
-The user you have already registered: Użytkownik jest już zarejestrowany
-Activate account: Aktywacja konta
-Don't set a new password: Nie ustawiono nowego hasła!
+#-------Account--------------
+Account: Konto
+User not found: Użytkownik nie został znaleziony
+User modified: Użytkownik został zmodifikowany
 Remind password: Przypomnij hasło
+New password: Nowe hasło
+Change password: Zmień hasło
+Don't set a new password: Nie ustawiono nowego hasła!
+Link to reset your password: Link do reserowania hasła
+Activate account: Aktywacja konta
+The user you have already registered: Użytkownik jest już zarejestrowany
+Problem with sending messages: Problem z wysłaniem wiadomości
+Change role: Zmiana roli
+Changed role: Zmiana roli udała się
+Registered user: Użytkownik został zarejestrowany

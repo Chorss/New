@@ -17,5 +17,5 @@ db:
     MYSQL_PASSWORD: user
 
 #docker run -d -p 80:80 --name name_projects -v /path/to/your/folder/:/var/www/html --link mysql:mysql --link postgres:postgres myapp
-#docker run -d -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=mysecretpassword mysql
-#docker run -d -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=mysecretpassword postgres
+#docker run -d -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=mysecretpassword mysql:5.7
+#docker run -d -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=mysecretpassword postgres:9.6
