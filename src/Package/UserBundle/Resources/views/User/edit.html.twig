@@ -1,0 +1,14 @@
+{% extends 'PackageTaskBundle::base.html.twig' %}
+
+{% block title %}
+    {{ 'Account'|trans }}
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+
+    {{ form(userEditForm) }}
+    {{ form(userChangePasswordForm) }}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('PackageUserBundle:User:ChangeRole') }}">{{ 'Change role'|trans }}</a>
+    {% endif %}
+{% endblock %}

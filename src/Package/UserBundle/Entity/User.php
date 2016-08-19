@@ -1,4 +1,9 @@
 <?php
+/*This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+If a copy of the MPL was not distributed with this file,
+You can obtain one at
+https://mozilla.org/MPL/2.0/.
+*/
 
 namespace Package\UserBundle\Entity;
 
@@ -25,7 +30,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $id;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"registration"})
      * @Assert\Type("string")
      *
      * @ORM\Column(type="string", length=50, unique=true)
@@ -33,7 +38,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $username;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"registration", "user"})
      * @Assert\Email()
      *
      * @ORM\Column(type="string", length=150, unique=true)
@@ -46,8 +51,8 @@ class User implements AdvancedUserInterface, \Serializable
     private $password;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Length(min="5", max="120")
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\Length(min="5", max="120", groups={"registration"})
      * @Assert\Type("string")
      */
     private $plainPassword;
@@ -154,7 +159,7 @@ class User implements AdvancedUserInterface, \Serializable
     {
         return $this->credentialsNonExpired;
     }
-    
+
     public function isEnabled()
     {
         return $this->isEnabled;
