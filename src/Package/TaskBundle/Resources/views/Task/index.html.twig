@@ -6,27 +6,40 @@
 {% block body %}
     {{ parent() }}
     <article>
-        <a href="{{ path('PackageTaskBundle:Task:Add')}}">{{ 'Add task'|trans }}</a>
+        <a href="{{ path('PackageTaskBundle:Task:Add') }}">{{ 'Add task'|trans }}</a>
         <table class="table table-bordered">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>{{ 'Name'|trans }}</th>
-                    <th>{{ 'Date'|trans }}</th>
-                    <th>{{ 'Action'|trans }}</th>
-                </tr>
+            <tr>
+                <th>ID</th>
+                <th>{{ 'Name'|trans }}</th>
+                <th>{{ 'Status'|trans }}</th>
+                <th>{{ 'Priority'|trans }}</th>
+                <th>{{ 'Label'|trans }}</th>
+                <th>{{ 'Date'|trans }}</th>
+                <th>{{ 'Action'|trans }}</th>
+            </tr>
             </thead>
             <tbody>
-                {% for task in pagination %}
-                    <tr {% if loop.index is odd %}class="color"{% endif %}>
-                        <td>{{ task.id }}</td>
-                        <td>{{ task.name }}</td>
-                        <td>{{ task.DateCreated |date('Y-m-d H:i:s') }}</td>
-                        <td>
-                            <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Task:View', {'id':task.id}) }}">{{ 'View'|trans }}</a>
-                        </td>
-                    </tr>
-                {% endfor %}
+            {% for task in pagination %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ task.id }}</td>
+                    <td>{{ task.name }}</td>
+                    <td>{{ task.status.name }}</td>
+                    <td>{{ task.priorities.name }}</td>
+                    {% if task.labels %}
+                        <td>{{ task.labels.name }}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    <td>{{ task.DateCreated |date('Y-m-d H:i:s') }}</td>
+                    <td>
+                        <a class="btn btn-sm"
+                           href="{{ path('PackageTaskBundle:Task:Edit', {'id':task.id}) }}">{{ 'Edit'|trans }}</a>
+                        <a class="btn btn-sm"
+                           href="{{ path('PackageTaskBundle:Task:Remove', {'id':task.id}) }}">{{ 'Remove'|trans }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
         <div class="navigation">

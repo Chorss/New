@@ -21,7 +21,8 @@
                     <td>{{ priorities.id }}</td>
                     <td>{{ priorities.name }}</td>
                     <td>
-                        <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Priorities:View', {'id':priorities.id}) }}">{{ 'View'|trans }}</a>
+                        <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Priorities:Edit', {'id':priorities.id}) }}">{{ 'Edit'|trans }}</a>
+                        <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Priorities:Remove', {'id':priorities.id}) }}">{{ 'Remove'|trans }}</a>
                     </td>
                 </tr>
             {% endfor %}

@@ -30,38 +30,15 @@ class PrioritiesController extends Controller
      */
     public function indexAction($page)
     {
-        $em    = $this->get('doctrine.orm.entity_manager');
-        $dql   = "SELECT a FROM PackageTaskBundle:Priorities a";
+        $em = $this->get('doctrine.orm.entity_manager');
+        $dql = "SELECT a FROM PackageTaskBundle:Priorities a";
         $query = $em->createQuery($dql);
 
-        $paginator  = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($query, $page, 10);
 
         return array(
             'pagination' => $pagination
-        );
-    }
-    /**
-     * @Route(
-     *     "/view/{id}",
-     *     name="PackageTaskBundle:Priorities:View"
-     * )
-     * @Method({"GET", "POST", "HEAD"})
-     *
-     * @Template
-     */
-    public function viewAction($id)
-    {
-        $translator = $this->get('translator');
-        $priorities = $this->getDoctrine()->getRepository('PackageTaskBundle:Priorities')->find( (int)$id );
-
-        if(is_null($priorities)){
-            $this->addFlash('danger', $translator->trans('Priority not found'));
-            return $this->redirectToRoute('PackageTaskBundle:Priorities:Index');
-        }
-
-        return array(
-            'priorities' => $priorities
         );
     }
 
@@ -82,16 +59,15 @@ class PrioritiesController extends Controller
         $form = $this->createForm(new PrioritiesType(), $priorities);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            try{
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($priorities);
                 $em->flush();
                 $this->addFlash('success', $translator->trans('Added priority'));
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
-            }finally {
+            } finally {
                 return $this->redirectToRoute('PackageTaskBundle:Priorities:Index');
             }
         }
@@ -114,9 +90,9 @@ class PrioritiesController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $translator = $this->get('translator');
-        $priorities = $em->getRepository('PackageTaskBundle:Priorities')->find( (int)$id );
+        $priorities = $em->getRepository('PackageTaskBundle:Priorities')->find((int)$id);
 
-        if(is_null($id)){
+        if (is_null($id)) {
             $this->addFlash('danger', $translator->trans('Priority not found:'));
             return $this->redirectToRoute('PackageTaskBundle:Priorities:Index');
         }
@@ -124,14 +100,14 @@ class PrioritiesController extends Controller
         $form = $this->createForm(new PrioritiesType(), $priorities);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            try{
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
                 $em->persist($priorities);
                 $em->flush();
                 $this->addFlash('success', $translator->trans('Priority modified'));
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
-            }finally{
+            } finally {
                 return $this->redirectToRoute('PackageTaskBundle:Priorities:Index');
             }
         }
@@ -152,20 +128,20 @@ class PrioritiesController extends Controller
     {
         $translator = $this->get('translator');
         $em = $em = $this->getDoctrine()->getManager();
-        $priorities = $em->getRepository('PackageTaskBundle:Priorities')->find( (int)$id );
+        $priorities = $em->getRepository('PackageTaskBundle:Priorities')->find((int)$id);
 
-        if(is_null($priorities)){
+        if (is_null($priorities)) {
             $this->addFlash('danger', $translator->trans('Priority not found'));
             return $this->redirectToRoute('PackageTaskBundle:Priorities:Index');
         }
 
-        try{
+        try {
             $em->remove($priorities);
             $em->flush();
             $this->addFlash('success', $translator->trans('Priority removed'));
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
-        }finally{
+        } finally {
             return $this->redirectToRoute('PackageTaskBundle:Priorities:Index');
         }
     }

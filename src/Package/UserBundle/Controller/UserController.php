@@ -2,7 +2,6 @@
 
 namespace Package\UserBundle\Controller;
 
-use Package\UserBundle\Entity\User;
 use Package\UserBundle\Form\Type;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

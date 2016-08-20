@@ -21,7 +21,10 @@
                     <td>{{ status.id }}</td>
                     <td>{{ status.name }}</td>
                     <td>
-                        <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Status:View', {'id':status.id}) }}">{{ 'View'|trans }}</a>
+                        <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Status:Edit', {'id':status.id}) }}">{{ 'Edit'|trans }}</a>
+                        {% if status.getTasks.count == 0 %}
+                            <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Status:Remove', {'id':status.id}) }}">{{ 'Delete'|trans }}</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

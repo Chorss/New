@@ -30,39 +30,15 @@ class StatusController extends Controller
      */
     public function indexAction(Request $request, $page)
     {
-        $em    = $this->get('doctrine.orm.entity_manager');
-        $dql   = "SELECT a FROM PackageTaskBundle:Status a";
+        $em = $this->get('doctrine.orm.entity_manager');
+        $dql = "SELECT a FROM PackageTaskBundle:Status a";
         $query = $em->createQuery($dql);
 
-        $paginator  = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($query, $page, 10);
 
         return array(
             'pagination' => $pagination
-        );
-    }
-
-    /**
-     * @Route(
-     *     "/view/{id}",
-     *     name="PackageTaskBundle:Status:View"
-     * )
-     * @Method({"GET", "POST", "HEAD"})
-     *
-     * @Template
-     */
-    public function viewAction($id)
-    {
-        $status = $this->getDoctrine()->getRepository('PackageTaskBundle:Status')->find( (int)$id );
-        $translator = $this->get('translator');
-
-        if(is_null($status)){
-            $this->addFlash('danger', $translator->trans('Status not found'));
-            return $this->redirectToRoute('PackageTaskBundle:Status:Index');
-        }
-        
-        return array(
-            'status' => $status
         );
     }
 
@@ -83,16 +59,15 @@ class StatusController extends Controller
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            try{
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($status);
                 $em->flush();
                 $this->addFlash('success', $translator->trans('Added status'));
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
-            }finally {
+            } finally {
                 return $this->redirectToRoute('PackageTaskBundle:Status:Index');
             }
         }
@@ -114,10 +89,10 @@ class StatusController extends Controller
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $status = $em->getRepository('PackageTaskBundle:Status')->find( (int)$id );
+        $status = $em->getRepository('PackageTaskBundle:Status')->find((int)$id);
         $translator = $this->get('translator');
 
-        if(is_null($status)){
+        if (is_null($status)) {
             $this->addFlash('danger', $translator->trans('Status not found'));
             return $this->redirectToRoute('PackageTaskBundle:Status:Index');
         }
@@ -125,14 +100,14 @@ class StatusController extends Controller
         $form = $this->createForm(new Type\StatusType(), $status);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            try{
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
                 $em->persist($status);
                 $em->flush();
                 $this->addFlash('success', $translator->trans('Status modified'));
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
-            }finally {
+            } finally {
                 return $this->redirectToRoute('PackageTaskBundle:Status:Index');
             }
         }
@@ -152,21 +127,21 @@ class StatusController extends Controller
     public function removeAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $status = $em->getRepository('PackageTaskBundle:Status')->find( (int)$id);
+        $status = $em->getRepository('PackageTaskBundle:Status')->find((int)$id);
         $translator = $this->get('translator');
 
-        if(is_null($status)){
+        if (is_null($status)) {
             $this->addFlash('danger', $translator->trans('Status not found'));
             return $this->redirectToRoute('PackageTaskBundle:Status:Index');
         }
 
-        try{
+        try {
             $em->remove($status);
             $em->flush();
             $this->addFlash('success', $translator->trans('Status removed'));
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
-        }finally {
+        } finally {
             return $this->redirectToRoute('PackageTaskBundle:Status:Index');
         }
     }

@@ -43,30 +43,6 @@ class TaskController extends Controller
 
     /**
      * @Route(
-     *     "/view/{id}",
-     *     name="PackageTaskBundle:Task:View"
-     * )
-     * @Method({"GET", "POST", "HEAD"})
-     *
-     * @Template
-     */
-    public function viewAction($id)
-    {
-        $task = $this->getDoctrine()->getRepository('PackageTaskBundle:Tasks')->find( (int)$id );
-        $translator = $this->get('translator');
-
-        if(is_null($task)){
-            $this->addFlash('danger', $translator->trans('Task not found'));
-            return $this->redirectToRoute('PackageTaskBundle:Task:Index');
-        }
-
-        return array(
-            'task' => $task
-        );
-    }
-
-    /**
-     * @Route(
      *     "/add",
      *     name="PackageTaskBundle:Task:Add"
      * )
