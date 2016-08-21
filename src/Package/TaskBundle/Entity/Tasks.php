@@ -63,13 +63,6 @@ class Tasks
     private $status;
 
     /**
-     * @todo no idea
-     * @ORM\ManyToOne(targetEntity="Projects", inversedBy="tasks")
-     * @ORM\JoinColumn(name="projects_id", referencedColumnName="id")
-     */
-    private $projects;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Labels", inversedBy="tasks")
      * @ORM\JoinColumn(name="labels_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -208,30 +201,6 @@ class Tasks
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * Set projects
-     *
-     * @param \Package\TaskBundle\Entity\Projects $projects
-     *
-     * @return Tasks
-     */
-    public function setProjects(\Package\TaskBundle\Entity\Projects $projects = null)
-    {
-        $this->projects = $projects;
-
-        return $this;
-    }
-
-    /**
-     * Get projects
-     *
-     * @return \Package\TaskBundle\Entity\Projects
-     */
-    public function getProjects()
-    {
-        return $this->projects;
     }
 
     /**

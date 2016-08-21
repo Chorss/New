@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %} | TODO</title>
     {% block stylesheets %}
-        {% stylesheets filter='cssrewrite'
-        '@PackageDefaultsBundle/Resources/public/css/bootstrap.css'
-        '@PackageDefaultsBundle/Resources/public/css/bootstrap-theme.css'
-        '@PackageDefaultsBundle/Resources/public/css/style.css' %}
+        {% stylesheets '@bootstrap_css' %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
     {% endblock %}
@@ -73,9 +70,9 @@
 </main>
 {% block javascripts %}
     {% javascripts
-    '@PackageDefaultsBundle/Resources/public/js/jquery.js'
-    '@PackageDefaultsBundle/Resources/public/js/bootstrap.js' %}
-    <script src="{{ asset_url }}"></script>
+    '@jquery'
+    '@bootstrap_js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
 {{ include('footer.html.twig') }}
