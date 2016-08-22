@@ -67,12 +67,17 @@ Submit: Wyślij
 Account: Konto
 User not found: Użytkownik nie został znaleziony
 User modified: Użytkownik został zmodifikowany
+Registered user: Użytkownik został zarejestrowany
+
+#------Password-------------
 Remind password: Przypomnij hasło
 New password: Nowe hasło
 Change password: Zmień hasło
 Changed password: Zmieniłeś hasło
 Repeat new password: Powtórz nowe hasło
 Don't set a new password: Nie ustawiono nowego hasła!
+
+#------Email-------------
 Link to reset your password: Link do reserowania hasła
 Your new password is: Twoje nowe hasło to
 Link to reset your password: Link resetujący hasło
@@ -80,6 +85,7 @@ To activate your account click on the link below: Aby aktywować konto, kliknij 
 Activate account: Aktywacja konta
 The user you have already registered: Użytkownik jest już zarejestrowany
 Problem with sending messages: Problem z wysłaniem wiadomości
+
+#---------Role-----------
 Change role: Zmiana roli
 Changed role: Zmiana roli udała się
-Registered user: Użytkownik został zarejestrowany

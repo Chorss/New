@@ -25,17 +25,4 @@ class PagesController extends Controller
     {
         return array();
     }
-
-    /**
-     * @Route("/version",
-     *     name="PackageDefaultsBundle:Pages:Version"
-     * )
-     * @Method({"GET", "HEAD"})
-     *
-     * @Template
-     */
-    public function versionAction()
-    {
-        return array();
-    }
 }

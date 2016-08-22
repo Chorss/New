@@ -16,12 +16,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="Package\UserBundle\Repository\UserRepository")
  * @ORM\Table(name="users")
- * @UniqueEntity("username")
- * @UniqueEntity("email")
+ * @UniqueEntity(fields={"username"}, groups={"registration"})
+ * @UniqueEntity(fields={"email"}, groups={"registration", "user"})
  */
 class User implements AdvancedUserInterface, \Serializable
 {
-    //@todo Dodać Assert dla pól
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -38,7 +37,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $username;
 
     /**
-     * @Assert\NotBlank(groups={"registration", "user"})
+     * @Assert\NotBlank()
      * @Assert\Email()
      *
      * @ORM\Column(type="string", length=150, unique=true)

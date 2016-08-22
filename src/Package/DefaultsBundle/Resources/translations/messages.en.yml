@@ -1,0 +1,91 @@
+#---------Defaults-------------
+Main pages: Main pages
+Name: Name
+Action: Action
+View: View
+Date: Date
+Edit: Edit
+Remove: Remove
+Version: Version 1.0
+Problem with base: Problem with base
+Incorrect parameters action: Incorrect parameters action
+Admin: Administrator
+User: User
+Role: Role
+
+#---------Labels------------
+Label: Label
+Labels: Labels
+Label not found: Label not found
+Add Label: Add Label
+Added label: Added label
+Label modified: Label modified
+Label removed: Label removed
+
+#---------Status------------
+Status: Status
+Statuses: Statuses
+Status not found: Status not found
+Add status: Add status
+Added status: Added status
+Status modified: Status modified
+Status removed: Status removed
+
+#---------Priorities------------
+Priority: Priority
+Priorities: Priorities
+Priority not found: Priority not found
+Add priority: Add priority
+Added priority: Added priority
+Priority modified: Priority modified
+Priority removed: Priority removed
+
+#---------Task------------
+Task: Task
+Tasks: Tasks
+Task not found: Task not found
+Add task: Add task
+Added task: Added task
+Task modified: Task modified
+Task removed: Task removed
+
+#-----------Login-----------
+Login: Login
+Password: Password
+Remember me: Remember me
+Login in: Login in
+
+#-------Register----------
+Register: Register
+Username: Username
+Email: Email
+Password: Password
+Repeat password: Repeat password
+Submit: Submit
+
+#-------Account--------------
+Account: Account
+User not found: User not found
+User modified: User modified
+Registered user: Registered user
+
+#------Password-------------
+Remind password: Remind password
+New password: New password
+Change password: Change password
+Changed password: Changed password
+Repeat new password: Repeat new password
+Don't set a new password: Don't set a new password
+
+#------Email-------------
+Link to reset your password: Link to reset your password
+Your new password is: Your new password is
+Link to reset your password: Link to reset your password
+To activate your account click on the link below: To activate your account click on the link below
+Activate account: Activate account
+The user you have already registered: The user you have already registered
+Problem with sending messages: Problem with sending messages
+
+#---------Role-----------
+Change role: Change role
+Changed role: Changed role
