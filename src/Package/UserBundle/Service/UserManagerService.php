@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface as Templating;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
-use Symfony\Component\Translation\DataCollectorTranslator;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Security;
 use Package\UserBundle\Entity\User;
 
@@ -31,7 +31,7 @@ class UserManagerService
     private $templating;
 
     /**
-     * @var DataCollectorTranslator
+     * @var TranslatorInterface
      */
     private $translator;
 
@@ -51,11 +51,11 @@ class UserManagerService
      * @param Doctrine $doctrine
      * @param Router $router
      * @param Templating $templating
-     * @param DataCollectorTranslator $translator
+     * @param TranslatorInterface $translator
      * @param UserPasswordEncoder $passwordEncoder
      * @param UserMailerService $user_mailer
      */
-    function __construct(Doctrine $doctrine, Router $router, Templating $templating, DataCollectorTranslator $translator, UserPasswordEncoder $passwordEncoder, UserMailerService $user_mailer)
+    function __construct(Doctrine $doctrine, Router $router, Templating $templating, TranslatorInterface $translator, UserPasswordEncoder $passwordEncoder, UserMailerService $user_mailer)
     {
         $this->doctrine = $doctrine;
         $this->router = $router;
