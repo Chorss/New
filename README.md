@@ -1,5 +1,5 @@
-TODO Simple manager
+Simple TODO list
 ========================
 
 
-TODO Simple manager
+Simple TODO list
