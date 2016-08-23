@@ -82,6 +82,7 @@ assetic:
         bootstrap_js:
             inputs:
                 - %kernel.root_dir%/../vendor/twitter/bootstrap/dist/js/bootstrap.min.js
+                - '@PackageDefaultsBundle/Resources/public/js/googleAnalytics.js'
 
         bootstrap_css:
             inputs:
