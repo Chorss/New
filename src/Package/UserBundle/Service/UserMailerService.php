@@ -43,8 +43,11 @@ class UserMailerService
      * @param $fromEmail string Form Email
      * @param $fromName string Name email
      */
-    function __construct(\Swift_Mailer $swiftMailer, $fromEmail, $fromName) {
+    function __construct(\Swift_Mailer $swiftMailer, $fromEmail, $fromName)
+    {
         $this->swiftMailer = $swiftMailer;
+        $this->fromEmail = $fromEmail;
+        $this->fromName = $fromName;
     }
 
     /**
