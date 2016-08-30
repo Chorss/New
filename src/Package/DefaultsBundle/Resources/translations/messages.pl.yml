@@ -11,7 +11,7 @@ Problem with base: Jest problem z bazą danych
 Incorrect parameters action: Błędne parametry akcji
 Admin: Administrator
 User: Użytkownik
-Role: Role
+Submit: Wyślij
 
 #---------Labels------------
 Label: Etykieta
@@ -61,7 +61,7 @@ Username: Username
 Email: Email
 Password: Hasło
 Repeat password: Powtórz hasło
-Submit: Wyślij
+Registration is disabled: Rejestracja została wyłączona
 
 #-------Account--------------
 Account: Konto
@@ -76,6 +76,9 @@ Change password: Zmień hasło
 Changed password: Zmieniłeś hasło
 Repeat new password: Powtórz nowe hasło
 Don't set a new password: Nie ustawiono nowego hasła!
+Your account was activated: Twoje konto zostało aktywowane!
+The new password was sent: Nowe hasło zostało wysłane
+Check your email: Sprawdź swój email
 
 #------Email-------------
 Link to reset your password: Link do reserowania hasła
@@ -87,5 +90,6 @@ The user you have already registered: Użytkownik jest już zarejestrowany
 Problem with sending messages: Problem z wysłaniem wiadomości
 
 #---------Role-----------
+Role: Role
 Change role: Zmiana roli
 Changed role: Zmiana roli udała się

@@ -25,6 +25,12 @@ class SecurityController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $translator = $this->get('translator');
+
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('danger', $translator->trans('Registration is disabled'));
+            return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
+        }
+
         $user = new User();
         $form = $this->createForm(new Type\RegisterUserType(), $user);
 
@@ -91,7 +97,7 @@ class SecurityController extends Controller
                 $userEmail = $form->get('email')->getData();
                 $userManager = $this->get('user_manager');
                 $userManager->sendResetPasswordLink($userEmail);
-                $this->addFlash('success', $translator->trans('Udało się przypomnieć hasło'));
+                $this->addFlash('success', $translator->trans('Check your email'));
             } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
             } finally {
@@ -117,7 +123,7 @@ class SecurityController extends Controller
             $translator = $this->get('translator');
             $userManager = $this->get('user_manager');
             $userManager->resetPassword($actionToken);
-            $this->addFlash('success', $translator->trans('Na Twój adres e-mail zostało wysłane nowe hasło!'));
+            $this->addFlash('success', $translator->trans('The new password was sent'));
         } catch (\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
         } finally {
@@ -138,7 +144,7 @@ class SecurityController extends Controller
             $translator = $this->get('translator');
             $userManager = $this->get('user_manager');
             $userManager->activateAccount($actionToken);
-            $this->addFlash('success', $translator->trans('Twoje konto zostało aktywowane!'));
+            $this->addFlash('success', $translator->trans('Your account was activated'));
         } catch (\Exception $e) {
             $this->addFlash('error', $e->getMessage());
         } finally {

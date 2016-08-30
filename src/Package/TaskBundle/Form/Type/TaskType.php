@@ -22,8 +22,7 @@ class TaskType extends AbstractType
                     'expanded' => true,
                     'multiple' => false,
                     'required' => true,
-                    'placeholder' => '-- Wybierz coś --',
-                    'data_class' => null,
+                    'placeholder' => 'Choose something'
                 )
             )
             ->add('priorities', EntityType::class, array(
@@ -32,7 +31,7 @@ class TaskType extends AbstractType
                     'expanded' => true,
                     'multiple' => false,
                     'required' => true,
-                    'placeholder' => '-- Wybierz coś --',
+                    'placeholder' => 'Choose something',
                 )
             )
             ->add('labels', EntityType::class, array(
@@ -40,9 +39,8 @@ class TaskType extends AbstractType
                     'choice_label' => 'Name',
                     'expanded' => true,
                     'multiple' => false,
-                    'required' => true,
-                    'placeholder' => '-- Wybierz coś --',
-                    'data_class' => null,
+                    'required' => false,
+                    'placeholder' => 'Choose something'
                 )
             )
             ->add('submit', SubmitType::class, array('label' => 'Submit'));
