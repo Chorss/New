@@ -6,37 +6,41 @@
 {% block body %}
     {{ parent() }}
     <article>
-        <a href="{{ path('PackageTaskBundle:Task:Add') }}">{{ 'Add task'|trans }}</a>
+        <a href="{{ path('PackageTaskBundle:Task:Add') }}">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </a>
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>{{ 'Name'|trans }}</th>
-                <th>{{ 'Status'|trans }}</th>
-                <th>{{ 'Priority'|trans }}</th>
-                <th>{{ 'Label'|trans }}</th>
-                <th>{{ 'Date'|trans }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Name'|trans({}, 'messages'), 't.name')|raw }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Status'|trans({}, 'messages'), 's.name')|raw }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Priority'|trans({}, 'messages'), 'p.name')|raw }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Label'|trans({}, 'messages'), 'l.name')|raw }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Date'|trans({}, 'messages'), 't.dateCreated')|raw }}</th>
                 <th>{{ 'Action'|trans }}</th>
             </tr>
             </thead>
             <tbody>
             {% for task in pagination %}
-                <tr {% if loop.index is odd %}class="color"{% endif %}>
-                    <td>{{ task.id }}</td>
+                <tr>
                     <td>{{ task.name }}</td>
                     <td>{{ task.status.name }}</td>
-                    <td>{{ task.priorities.name }}</td>
-                    {% if task.labels %}
-                        <td>{{ task.labels.name }}</td>
+                    <td>{{ task.priority.name }}</td>
+                    {% if task.label %}
+                        <td>{{ task.label.name }}</td>
                     {% else %}
                         <td></td>
                     {% endif %}
                     <td>{{ task.DateCreated |date('Y-m-d H:i:s') }}</td>
                     <td>
                         <a class="btn btn-sm"
-                           href="{{ path('PackageTaskBundle:Task:Edit', {'id':task.id}) }}">{{ 'Edit'|trans }}</a>
+                           href="{{ path('PackageTaskBundle:Task:Edit', {'id':task.id}) }}">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a>
                         <a class="btn btn-sm"
-                           href="{{ path('PackageTaskBundle:Task:Remove', {'id':task.id}) }}">{{ 'Remove'|trans }}</a>
+                           href="{{ path('PackageTaskBundle:Task:Remove', {'id':task.id}) }}">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

@@ -2,13 +2,13 @@
 
 namespace Package\TaskBundle\Controller;
 
+use Package\TaskBundle\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-use Package\TaskBundle\Entity\Tasks;
 use Package\TaskBundle\Form\Type;
 
 /**
@@ -30,12 +30,11 @@ class TaskController extends Controller
      */
     public function indexAction($page)
     {
-        $em    = $this->get('doctrine.orm.entity_manager');
-        $dql   = "SELECT a FROM PackageTaskBundle:Tasks a";
-        $query = $em->createQuery($dql);
+        $query = $this->getDoctrine()->getRepository('PackageTaskBundle:Task')->getQueryPagination();
 
-        $paginator  = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($query, $page, 10);
+
         return array(
             'pagination' => $pagination
         );
@@ -56,7 +55,7 @@ class TaskController extends Controller
         $translator = $this->get('translator');
 
         $user = $this->getUser();
-        $tasks = new Tasks;
+        $tasks = new Task();
         $tasks->setDateCreated(new \DateTime());
         $tasks->setAuthor(
             $em->getRepository('PackageUserBundle:User')->findOneBy(array('id' => $user->getId()))
@@ -64,15 +63,14 @@ class TaskController extends Controller
         $form = $this->createForm(new Type\TaskType(), $tasks);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            try{
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
                 $em->persist($tasks);
                 $em->flush();
                 $this->addFlash('success', $translator->trans('Added task'));
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
-            }finally{
+            } finally {
                 return $this->redirectToRoute('PackageTaskBundle:Task:Index');
             }
         }
@@ -94,10 +92,10 @@ class TaskController extends Controller
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $task = $em->getRepository('PackageTaskBundle:Tasks')->find( (int)$id);
+        $task = $em->getRepository('PackageTaskBundle:Task')->find((int)$id);
         $translator = $this->get('translator');
 
-        if(is_null($task)){
+        if (is_null($task)) {
             $this->addFlash('danger', $translator->trans('Task not found'));
             return $this->redirectToRoute('PackageTaskBundle:Task:Index');
         }
@@ -105,14 +103,14 @@ class TaskController extends Controller
         $form = $this->createForm(new Type\TaskType(), $task);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            try{
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
                 $em->persist($task);
                 $em->flush();
                 $this->addFlash('success', $translator->trans('Task modified'));
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
-            }finally{
+            } finally {
                 return $this->redirectToRoute('PackageTaskBundle:Task:Index');
             }
         }
@@ -133,20 +131,20 @@ class TaskController extends Controller
     {
         $translator = $this->get('translator');
         $em = $this->getDoctrine()->getManager();
-        $task = $em->getRepository('PackageTaskBundle:Tasks')->find( (int)$id);
+        $task = $em->getRepository('PackageTaskBundle:Task')->find((int)$id);
 
-        if(is_null($task)){
+        if (is_null($task)) {
             $this->addFlash('danger', $translator->trans('Task not found'));
             return $this->redirectToRoute('PackageTaskBundle:Task:Index');
         }
 
-        try{
+        try {
             $em->remove($task);
             $em->flush();
             $this->addFlash('success', $translator->trans('Task removed'));
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
-        }finally{
+        } finally {
             return $this->redirectToRoute('PackageTaskBundle:Task:Index');
         }
     }

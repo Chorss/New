@@ -7,10 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
  * @ORM\Table(name="priorities")
+ * @ORM\Entity(repositoryClass="Package\TaskBundle\Repository\PriorityRepository")
  */
-class Priorities
+class Priority
 {
     /**
      * @ORM\Column(type="integer")
@@ -29,9 +29,9 @@ class Priorities
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="priorities")
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="priority")
      */
-    private $tasks;
+    private $task;
 
     public function __construct()
     {
@@ -53,7 +53,7 @@ class Priorities
      *
      * @param string $name
      *
-     * @return Priorities
+     * @return Priority
      */
     public function setName($name)
     {
@@ -75,13 +75,13 @@ class Priorities
     /**
      * Add task
      *
-     * @param \Package\TaskBundle\Entity\Tasks $task
+     * @param \Package\TaskBundle\Entity\Task $task
      *
-     * @return Priorities
+     * @return Priority
      */
-    public function addTask(\Package\TaskBundle\Entity\Tasks $task)
+    public function addTask(\Package\TaskBundle\Entity\Task $task)
     {
-        $this->tasks[] = $task;
+        $this->task[] = $task;
 
         return $this;
     }
@@ -89,20 +89,20 @@ class Priorities
     /**
      * Remove task
      *
-     * @param \Package\TaskBundle\Entity\Tasks $task
+     * @param \Package\TaskBundle\Entity\Task $task
      */
-    public function removeTask(\Package\TaskBundle\Entity\Tasks $task)
+    public function removeTask(\Package\TaskBundle\Entity\Task $task)
     {
-        $this->tasks->removeElement($task);
+        $this->task->removeElement($task);
     }
 
     /**
-     * Get tasks
+     * Get task
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getTasks()
+    public function getTask()
     {
-        return $this->tasks;
+        return $this->task;
     }
 }

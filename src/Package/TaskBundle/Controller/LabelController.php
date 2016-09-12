@@ -2,6 +2,7 @@
 
 namespace Package\TaskBundle\Controller;
 
+use Package\TaskBundle\Entity\Label;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -9,20 +10,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Package\TaskBundle\Form\Type\LabelsType;
-use Package\TaskBundle\Entity\Labels;
 
 /**
  * @Route("/labels")
  * @Security("has_role('ROLE_USER')")
  */
-class LabelsController extends Controller
+class LabelController extends Controller
 {
     /**
      * @Route(
      *     "/{page}",
      *     defaults={"page" = 1},
      *     requirements={"page": "\d+"},
-     *     name="PackageTaskBundle:Labels:Index"
+     *     name="PackageTaskBundle:Label:Index"
      * )
      * @Method({"GET", "HEAD"})
      *
@@ -30,11 +30,9 @@ class LabelsController extends Controller
      */
     public function indexAction($page)
     {
-        $em    = $this->get('doctrine.orm.entity_manager');
-        $dql   = "SELECT a FROM PackageTaskBundle:Labels a";
-        $query = $em->createQuery($dql);
+        $query = $this->getDoctrine()->getRepository("PackageTaskBundle:Label")->getQueryPagination();
 
-        $paginator  = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($query, $page, 10);
 
         return array(
@@ -45,7 +43,7 @@ class LabelsController extends Controller
     /**
      * @Route(
      *     "/add",
-     *     name="PackageTaskBundle:Labels:Add"
+     *     name="PackageTaskBundle:Label:Add"
      * )
      * @Method({"GET", "POST", "HEAD"})
      *
@@ -55,21 +53,20 @@ class LabelsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $translator = $this->get('translator');
-        $label = new Labels();
+        $label = new Label();
 
         $form = $this->createForm(new LabelsType(), $label);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            try{
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
                 $em->persist($label);
                 $em->flush();
                 $this->addFlash('success', $translator->trans('Added label'));
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
-            }finally{
-                return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
+            } finally {
+                return $this->redirectToRoute('PackageTaskBundle:Label:Index');
             }
         }
 
@@ -81,7 +78,7 @@ class LabelsController extends Controller
     /**
      * @Route(
      *     "/edit/{id}",
-     *     name="PackageTaskBundle:Labels:Edit"
+     *     name="PackageTaskBundle:Label:Edit"
      * )
      * @Method({"GET", "POST", "HEAD"})
      *
@@ -91,25 +88,25 @@ class LabelsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $translator = $this->get('translator');
-        $label = $em->getRepository('PackageTaskBundle:Labels')->find( (int)$id );
+        $label = $em->getRepository('PackageTaskBundle:Label')->find((int)$id);
 
-        if(is_null($label)){
+        if (is_null($label)) {
             $this->addFlash('danger', $translator->trans('Label not found'));
-            return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
+            return $this->redirectToRoute('PackageTaskBundle:Label:Index');
         }
 
         $form = $this->createForm(new LabelsType(), $label);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            try{
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
                 $em->persist($label);
                 $em->flush();
                 $this->addFlash('success', $translator->trans('Label modified'));
-                return $this->redirectToRoute('PackageTaskBundle:Labels:Edit', array('id' => (int)$id));
-            }catch (\Exception $e){
+                return $this->redirectToRoute('PackageTaskBundle:Label:Edit', array('id' => (int)$id));
+            } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
-                return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
+                return $this->redirectToRoute('PackageTaskBundle:Label:Index');
             }
         }
 
@@ -121,7 +118,7 @@ class LabelsController extends Controller
     /**
      * @Route(
      *     "/remove/{id}",
-     *     name="PackageTaskBundle:Labels:Remove"
+     *     name="PackageTaskBundle:Label:Remove"
      * )
      * @Method({"GET", "POST", "HEAD"})
      *
@@ -131,21 +128,21 @@ class LabelsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $translator = $this->get('translator');
-        $label = $em->getRepository('PackageTaskBundle:Labels')->find( (int)$id );
+        $label = $em->getRepository('PackageTaskBundle:Label')->find((int)$id);
 
-        if(is_null($label)){
+        if (is_null($label)) {
             $this->addFlash('danger', $translator->trans('Label not found'));
-            return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
+            return $this->redirectToRoute('PackageTaskBundle:Label:Index');
         }
 
-        try{
+        try {
             $em->remove($label);
             $em->flush();
             $this->addFlash('success', $translator->trans('Label removed'));
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
-        }finally{
-            return $this->redirectToRoute('PackageTaskBundle:Labels:Index');
+        } finally {
+            return $this->redirectToRoute('PackageTaskBundle:Label:Index');
         }
     }
 }

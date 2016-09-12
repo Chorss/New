@@ -30,9 +30,7 @@ class StatusController extends Controller
      */
     public function indexAction(Request $request, $page)
     {
-        $em = $this->get('doctrine.orm.entity_manager');
-        $dql = "SELECT a FROM PackageTaskBundle:Status a";
-        $query = $em->createQuery($dql);
+        $query = $this->getDoctrine()->getRepository("PackageTaskBundle:Status")->getQueryPagination();
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($query, $page, 10);

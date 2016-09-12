@@ -7,10 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
  * @ORM\Table(name="tasks")
+ * @ORM\Entity(repositoryClass="Package\TaskBundle\Repository\TaskRepository")
  */
-class Tasks
+class Task
 {
     /**
      * @ORM\Column(type="integer")
@@ -48,25 +48,25 @@ class Tasks
      * @Assert\NotBlank()
      * @Assert\NotNull()
      *
-     * @ORM\ManyToOne(targetEntity="Priorities", inversedBy="tasks")
+     * @ORM\ManyToOne(targetEntity="Priority", inversedBy="task")
      * @ORM\JoinColumn(name="priorities_id", referencedColumnName="id")
      */
-    private $priorities;
+    private $priority;
 
     /**
      * @Assert\NotBlank()
      * @Assert\NotNull()
      *
-     * @ORM\ManyToOne(targetEntity="Status", inversedBy="tasks")
+     * @ORM\ManyToOne(targetEntity="Status", inversedBy="task")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      */
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Labels", inversedBy="tasks")
+     * @ORM\ManyToOne(targetEntity="Label", inversedBy="task")
      * @ORM\JoinColumn(name="labels_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    private $labels;
+    private $label;
 
     public function __construct()
     {
@@ -88,7 +88,7 @@ class Tasks
      *
      * @param string $name
      *
-     * @return Tasks
+     * @return Task
      */
     public function setName($name)
     {
@@ -112,7 +112,7 @@ class Tasks
      *
      * @param \DateTime $dateCreated
      *
-     * @return Tasks
+     * @return Task
      */
     public function setDateCreated($dateCreated)
     {
@@ -136,7 +136,7 @@ class Tasks
      *
      * @param \Package\UserBundle\Entity\User $author
      *
-     * @return Tasks
+     * @return Task
      */
     public function setAuthor(\Package\UserBundle\Entity\User $author = null)
     {
@@ -156,27 +156,27 @@ class Tasks
     }
 
     /**
-     * Set priorities
+     * Set priority
      *
-     * @param \Package\TaskBundle\Entity\Priorities $priorities
+     * @param \Package\TaskBundle\Entity\Priority $priority
      *
-     * @return Tasks
+     * @return Task
      */
-    public function setPriorities(\Package\TaskBundle\Entity\Priorities $priorities = null)
+    public function setPriority(\Package\TaskBundle\Entity\Priority $priority = null)
     {
-        $this->priorities = $priorities;
+        $this->priority = $priority;
 
         return $this;
     }
 
     /**
-     * Get priorities
+     * Get priority
      *
-     * @return \Package\TaskBundle\Entity\Priorities
+     * @return \Package\TaskBundle\Entity\Priority
      */
-    public function getPriorities()
+    public function getPriority()
     {
-        return $this->priorities;
+        return $this->priority;
     }
 
     /**
@@ -184,7 +184,7 @@ class Tasks
      *
      * @param \Package\TaskBundle\Entity\Status $status
      *
-     * @return Tasks
+     * @return Task
      */
     public function setStatus(\Package\TaskBundle\Entity\Status $status = null)
     {
@@ -204,26 +204,26 @@ class Tasks
     }
 
     /**
-     * Set labels
+     * Set label
      *
-     * @param \Package\TaskBundle\Entity\Labels $labels
+     * @param \Package\TaskBundle\Entity\Label $label
      *
-     * @return Tasks
+     * @return Task
      */
-    public function setLabels(\Package\TaskBundle\Entity\Labels $labels = null)
+    public function setLabel(\Package\TaskBundle\Entity\Label $label = null)
     {
-        $this->labels = $labels;
+        $this->label = $label;
 
         return $this;
     }
 
     /**
-     * Get labels
+     * Get label
      *
-     * @return \Package\TaskBundle\Entity\Labels
+     * @return \Package\TaskBundle\Entity\Label
      */
-    public function getLabels()
+    public function getLabel()
     {
-        return $this->labels;
+        return $this->label;
     }
 }

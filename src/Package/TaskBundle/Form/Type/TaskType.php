@@ -25,8 +25,8 @@ class TaskType extends AbstractType
                     'placeholder' => 'Choose something'
                 )
             )
-            ->add('priorities', EntityType::class, array(
-                    'class' => 'PackageTaskBundle:Priorities',
+            ->add('priority', EntityType::class, array(
+                    'class' => 'PackageTaskBundle:Priority',
                     'choice_label' => 'Name',
                     'expanded' => true,
                     'multiple' => false,
@@ -34,8 +34,8 @@ class TaskType extends AbstractType
                     'placeholder' => 'Choose something',
                 )
             )
-            ->add('labels', EntityType::class, array(
-                    'class' => 'PackageTaskBundle:Labels',
+            ->add('label', EntityType::class, array(
+                    'class' => 'PackageTaskBundle:Label',
                     'choice_label' => 'Name',
                     'expanded' => true,
                     'multiple' => false,

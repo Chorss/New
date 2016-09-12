@@ -99,7 +99,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $lastActivity = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="Package\TaskBundle\Entity\Tasks", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="Package\TaskBundle\Entity\Task", mappedBy="author")
      */
     private $tasks;
 
@@ -433,11 +433,11 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Add task
      *
-     * @param \Package\TaskBundle\Entity\Tasks $task
+     * @param \Package\TaskBundle\Entity\Task $task
      *
      * @return User
      */
-    public function addTask(\Package\TaskBundle\Entity\Tasks $task)
+    public function addTask(\Package\TaskBundle\Entity\Task $task)
     {
         $this->tasks[] = $task;
 
@@ -447,9 +447,9 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Remove task
      *
-     * @param \Package\TaskBundle\Entity\Tasks $task
+     * @param \Package\TaskBundle\Entity\Task $task
      */
-    public function removeTask(\Package\TaskBundle\Entity\Tasks $task)
+    public function removeTask(\Package\TaskBundle\Entity\Task $task)
     {
         $this->tasks->removeElement($task);
     }
