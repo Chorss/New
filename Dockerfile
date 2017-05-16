@@ -1,6 +1,6 @@
 FROM php:7-apache
 
-ENV XDEBUG_VERSION 2.4.1
+ENV XDEBUG_VERSION 2.5.4
 
 RUN apt-get update \
     && apt-get upgrade -y \

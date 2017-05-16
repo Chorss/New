@@ -1,3 +1,7 @@
+1.1.1 - 2017-05-16
+    
+    -Upgrade Dockerfile
+
 1.1.0 - 2016-09-12
     
     -Fixed paginaction
