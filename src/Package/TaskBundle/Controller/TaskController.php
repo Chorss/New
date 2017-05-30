@@ -2,14 +2,15 @@
 
 namespace Package\TaskBundle\Controller;
 
+use Doctrine\Common\Collections\Collection;
 use Package\TaskBundle\Entity\Task;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
 use Package\TaskBundle\Form\Type;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/task")
@@ -28,7 +29,7 @@ class TaskController extends Controller
      *
      * @Template
      */
-    public function indexAction($page)
+    public function indexAction(int $page)
     {
         $query = $this->getDoctrine()->getRepository('PackageTaskBundle:Task')->getQueryPagination();
 
@@ -37,6 +38,40 @@ class TaskController extends Controller
 
         return array(
             'pagination' => $pagination
+        );
+    }
+
+    /**
+     * @Route(
+     *     "/view/{taskId}/{page}",
+     *     name="PackageTaskBundle:Task:View",
+     *     requirements={"taskId": "\d+", "page": "\d+"},
+     *     defaults={"page" = 1}
+     * )
+     * @Method({"GET", "HEAD"})
+     *
+     * @Template
+     */
+    public function viewAction(Request $request, int $taskId, int $page)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $translator = $this->get('translator');
+
+        $task = $em->getRepository('PackageTaskBundle:Task')->find($taskId);
+
+        if (is_null($task)) {
+            $this->addFlash('danger', $translator->trans('Task not found'));
+            return $this->redirectToRoute('PackageTaskBundle:Task:Index');
+        }
+
+        $query = $em->getRepository('PackageTaskBundle:Comment')->getQueryPagination($taskId);
+        $pagination = $this->get('knp_paginator');
+        $commentPagination = $pagination->paginate($query, $page, 10);
+
+        return array(
+            'task' => $task,
+            'sumWorklog' => $this->getSumWorklog($task->getWorklog()),
+            'comments' => $commentPagination
         );
     }
 
@@ -54,13 +89,9 @@ class TaskController extends Controller
         $em = $this->getDoctrine()->getManager();
         $translator = $this->get('translator');
 
-        $user = $this->getUser();
         $tasks = new Task();
-        $tasks->setDateCreated(new \DateTime());
-        $tasks->setAuthor(
-            $em->getRepository('PackageUserBundle:User')->findOneBy(array('id' => $user->getId()))
-        );
-        $form = $this->createForm(new Type\TaskType(), $tasks);
+
+        $form = $this->createForm(Type\TaskType::class, $tasks);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -89,10 +120,10 @@ class TaskController extends Controller
      *
      * @Template
      */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, int $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $task = $em->getRepository('PackageTaskBundle:Task')->find((int)$id);
+        $task = $em->getRepository('PackageTaskBundle:Task')->find($id);
         $translator = $this->get('translator');
 
         if (is_null($task)) {
@@ -100,11 +131,12 @@ class TaskController extends Controller
             return $this->redirectToRoute('PackageTaskBundle:Task:Index');
         }
 
-        $form = $this->createForm(new Type\TaskType(), $task);
+        $form = $this->createForm(Type\TaskType::class, $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $task->setUpdated(new \DateTime());
                 $em->persist($task);
                 $em->flush();
                 $this->addFlash('success', $translator->trans('Task modified'));
@@ -127,11 +159,11 @@ class TaskController extends Controller
      * )
      * @Method({"GET", "POST", "HEAD"})
      */
-    public function removeAction($id)
+    public function removeAction(int $id)
     {
         $translator = $this->get('translator');
         $em = $this->getDoctrine()->getManager();
-        $task = $em->getRepository('PackageTaskBundle:Task')->find((int)$id);
+        $task = $em->getRepository('PackageTaskBundle:Task')->find($id);
 
         if (is_null($task)) {
             $this->addFlash('danger', $translator->trans('Task not found'));
@@ -147,5 +179,21 @@ class TaskController extends Controller
         } finally {
             return $this->redirectToRoute('PackageTaskBundle:Task:Index');
         }
+    }
+
+    /**
+     * getSumWorklog
+     *
+     * @param Collection $worklogs
+     * @return int sum
+     */
+    private function getSumWorklog(Collection $worklogs)
+    {
+        $sum = 0;
+        foreach ($worklogs as $worklog) {
+            $sum += $worklog->getTimeSpent();
+        }
+
+        return $sum;
     }
 }

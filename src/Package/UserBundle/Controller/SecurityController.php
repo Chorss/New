@@ -26,13 +26,13 @@ class SecurityController extends Controller
         $em = $this->getDoctrine()->getManager();
         $translator = $this->get('translator');
 
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('danger', $translator->trans('Registration is disabled'));
-            return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
-        }
+//        if (!$this->isGranted('ROLE_ADMIN')) {
+//            $this->addFlash('danger', $translator->trans('Registration is disabled'));
+//            return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
+//        }
 
         $user = new User();
-        $form = $this->createForm(new Type\RegisterUserType(), $user);
+        $form = $this->createForm(Type\RegisterUserType::class, $user);
 
         $form->handleRequest($request);
 
@@ -67,7 +67,7 @@ class SecurityController extends Controller
 
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        $form = $this->createForm(new Type\LoginType(), array(
+        $form = $this->createForm(Type\LoginType::class, array(
             'username' => $authenticationUtils->getLastUsername()
         ));
 
@@ -88,7 +88,7 @@ class SecurityController extends Controller
     public function rememberPasswordAction(Request $request)
     {
         $translator = $this->get('translator');
-        $form = $this->createForm(new Type\RememberPasswordType());
+        $form = $this->createForm(Type\RememberPasswordType::class);
 
         $form->handleRequest($request);
 

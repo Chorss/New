@@ -1,17 +1,32 @@
 #---------Defaults-------------
 Main pages: Main pages
+
 Name: Name
+Description: Description
 Action: Action
 View: View
 Date: Date
 Edit: Edit
 Remove: Remove
-Version: Version 1.1.1
+Created: Created
+Updated: Updated
+Submit: Submit
+Author: Author
+
 Problem with base: Problem with base
 Incorrect parameters action: Incorrect parameters action
-Admin: Administrator
-User: User
-Role: Role
+
+Version: Version 1.5.0
+
+#-----------Comment----------
+Comment: Comment
+Comments: Comments
+Comment not found: Comment not found
+Add comment: Add comment
+Added comment: Added comment
+Edit comment: Edit comment
+Comment modified: Comment modified
+Comment removed: Comment removed
 
 #---------Labels------------
 Label: Label
@@ -21,6 +36,17 @@ Add Label: Add Label
 Added label: Added label
 Label modified: Label modified
 Label removed: Label removed
+
+#---------Projects------------
+Key: Key
+Project lead: Project lead
+Project: Project
+Projects: Projects
+Project not found: Project not found
+Add project: Add project
+Added project: Added project
+Project modified: Project modified
+Project removed: Project removed
 
 #---------Status------------
 Status: Status
@@ -44,10 +70,21 @@ Priority removed: Priority removed
 Task: Task
 Tasks: Tasks
 Task not found: Task not found
+Task details: Task details
 Add task: Add task
 Added task: Added task
 Task modified: Task modified
 Task removed: Task removed
+Assignee: Assignee
+
+#---------Worklog------------
+Worklog: Worklog
+Worklog not found: Worklog not found
+Add worklog: Add worklog
+Added worklog: Added worklog
+Worklog modified: Worklog modified
+Worklog removed: Worklog removed
+Time spent: Time spent
 
 #-----------Login-----------
 Login: Login
@@ -76,6 +113,9 @@ Change password: Change password
 Changed password: Changed password
 Repeat new password: Repeat new password
 Don't set a new password: Don't set a new password
+Your account was activated: Your account was activated
+The new password was sent: The new password was sent
+Check your email: Check your email
 
 #------Email-------------
 Link to reset your password: Link to reset your password
@@ -87,5 +127,8 @@ The user you have already registered: The user you have already registered
 Problem with sending messages: Problem with sending messages
 
 #---------Role-----------
+Role: Role
 Change role: Change role
 Changed role: Changed role
+Admin: Admin
+User: User

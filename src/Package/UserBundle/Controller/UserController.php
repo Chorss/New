@@ -36,10 +36,10 @@ class UserController extends Controller
             return $this->redirectToRoute('PackageDefaultsBundle:Pages:Index');
         }
 
-        $userEditForm = $this->createForm(new Type\UserType(), $user);
+        $userEditForm = $this->createForm(Type\UserType::class, $user);
         $userEditForm->handleRequest($request);
 
-        $userChangePasswordForm = $this->createForm(new Type\ChangePasswordType());
+        $userChangePasswordForm = $this->createForm(Type\ChangePasswordType::class);
         $userChangePasswordForm->handleRequest($request);
 
         if ($userEditForm->isSubmitted() && $userEditForm->isValid()) {
@@ -88,7 +88,7 @@ class UserController extends Controller
     {
         $translator = $this->get('translator');
 
-        $form = $this->createForm(new Type\ChangeRoleType());
+        $form = $this->createForm(Type\ChangeRoleType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

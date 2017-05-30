@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/priorities")
- * @Security("has_role('ROLE_ADMIN')")
+ * @Security("has_role('ROLE_USER')")
  */
 class PriorityController extends Controller
 {
@@ -54,7 +54,7 @@ class PriorityController extends Controller
         $translator = $this->get('translator');
         $priority = new Priority();
 
-        $form = $this->createForm(new PrioritiesType(), $priority);
+        $form = $this->createForm(PrioritiesType::class, $priority);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -84,7 +84,7 @@ class PriorityController extends Controller
      *
      * @Template
      */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, int $id)
     {
         $em = $this->getDoctrine()->getManager();
         $translator = $this->get('translator');
@@ -95,7 +95,7 @@ class PriorityController extends Controller
             return $this->redirectToRoute('PackageTaskBundle:Priority:Index');
         }
 
-        $form = $this->createForm(new PrioritiesType(), $priority);
+        $form = $this->createForm(PrioritiesType::class, $priority);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -122,11 +122,11 @@ class PriorityController extends Controller
      * )
      * @Method({"GET", "POST", "HEAD"})
      */
-    public function removeAction($id)
+    public function removeAction(int $id)
     {
         $translator = $this->get('translator');
         $em = $this->getDoctrine()->getManager();
-        $priority = $em->getRepository('PackageTaskBundle:Priority')->find((int)$id);
+        $priority = $em->getRepository('PackageTaskBundle:Priority')->find($id);
 
         if (is_null($priority)) {
             $this->addFlash('danger', $translator->trans('Priority not found'));

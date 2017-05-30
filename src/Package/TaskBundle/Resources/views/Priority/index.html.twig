@@ -13,6 +13,7 @@
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'Name'|trans({}, 'messages'), 'p.name')|raw }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Description'|trans({}, 'messages'), 'p.description')|raw }}</th>
                 <th>{{ 'Action'|trans }}</th>
             </tr>
             </thead>
@@ -20,6 +21,7 @@
             {% for priorities in pagination %}
                 <tr {% if loop.index is odd %}class="color"{% endif %}>
                     <td>{{ priorities.name }}</td>
+                    <td>{{ priorities.description }}</td>
                     <td>
                         <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Priority:Edit', {'id':priorities.id}) }}">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>

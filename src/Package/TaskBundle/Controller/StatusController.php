@@ -13,7 +13,7 @@ use Package\TaskBundle\Form\Type;
 
 /**
  * @Route("/status")
- * @Security("has_role('ROLE_ADMIN')")
+ * @Security("has_role('ROLE_USER')")
  */
 class StatusController extends Controller
 {
@@ -28,7 +28,7 @@ class StatusController extends Controller
      *
      * @Template
      */
-    public function indexAction(Request $request, $page)
+    public function indexAction(Request $request, int $page)
     {
         $query = $this->getDoctrine()->getRepository("PackageTaskBundle:Status")->getQueryPagination();
 
@@ -53,7 +53,7 @@ class StatusController extends Controller
     {
         $status = new Status();
         $translator = $this->get('translator');
-        $form = $this->createForm(new Type\StatusType(), $status);
+        $form = $this->createForm(Type\StatusType::class, $status);
 
         $form->handleRequest($request);
 
@@ -84,10 +84,10 @@ class StatusController extends Controller
      *
      * @Template
      */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, int $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $status = $em->getRepository('PackageTaskBundle:Status')->find((int)$id);
+        $status = $em->getRepository('PackageTaskBundle:Status')->find($id);
         $translator = $this->get('translator');
 
         if (is_null($status)) {
@@ -95,7 +95,7 @@ class StatusController extends Controller
             return $this->redirectToRoute('PackageTaskBundle:Status:Index');
         }
 
-        $form = $this->createForm(new Type\StatusType(), $status);
+        $form = $this->createForm(Type\StatusType::class, $status);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -122,10 +122,10 @@ class StatusController extends Controller
      * )
      * @Method({"GET", "POST", "HEAD"})
      */
-    public function removeAction($id)
+    public function removeAction(int $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $status = $em->getRepository('PackageTaskBundle:Status')->find((int)$id);
+        $status = $em->getRepository('PackageTaskBundle:Status')->find($id);
         $translator = $this->get('translator');
 
         if (is_null($status)) {

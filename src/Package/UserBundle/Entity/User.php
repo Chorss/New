@@ -98,14 +98,8 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $lastActivity = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Package\TaskBundle\Entity\Task", mappedBy="author")
-     */
-    private $tasks;
-
     public function __construct()
     {
-        $this->tasks = new ArrayCollection();
         $this->dateRegister = new \DateTime();
     }
 
@@ -415,7 +409,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function setLastActivity($lastActivity)
     {
-        $this->lastActivity = date_timestamp_get($lastActivity);
+        $this->lastActivity = $lastActivity;
 
         return $this;
     }
@@ -427,40 +421,6 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function getLastActivity()
     {
-        return date_timestamp_set(new \DateTime(), $this->lastActivity);
-    }
-
-    /**
-     * Add task
-     *
-     * @param \Package\TaskBundle\Entity\Task $task
-     *
-     * @return User
-     */
-    public function addTask(\Package\TaskBundle\Entity\Task $task)
-    {
-        $this->tasks[] = $task;
-
-        return $this;
-    }
-
-    /**
-     * Remove task
-     *
-     * @param \Package\TaskBundle\Entity\Task $task
-     */
-    public function removeTask(\Package\TaskBundle\Entity\Task $task)
-    {
-        $this->tasks->removeElement($task);
-    }
-
-    /**
-     * Get tasks
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTasks()
-    {
-        return $this->tasks;
+        return $this->lastActivity;
     }
 }

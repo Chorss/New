@@ -6,13 +6,14 @@
 {% block body %}
     {{ parent() }}
     <article>
-        <a href="{{ path('PackageTaskBundle:Status:Add')}}">
+        <a href="{{ path('PackageTaskBundle:Status:Add') }}">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </a>
         <table class="table table-bordered">
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'Name'|trans({}, 'messages'), 's.name')|raw }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Description'|trans({}, 'messages'), 's.description')|raw }}</th>
                 <th>{{ 'Action'|trans }}</th>
             </tr>
             </thead>
@@ -20,15 +21,14 @@
             {% for status in pagination %}
                 <tr {% if loop.index is odd %}class="color"{% endif %}>
                     <td>{{ status.name }}</td>
+                    <td>{{ status.description }}</td>
                     <td>
                         <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Status:Edit', {'id':status.id}) }}">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </a>
-                        {% if status.task.count == 0 %}
-                            <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Status:Remove', {'id':status.id}) }}">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </a>
-                        {% endif %}
+                        <a class="btn btn-sm" href="{{ path('PackageTaskBundle:Status:Remove', {'id':status.id}) }}">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

@@ -1,17 +1,32 @@
 #---------Defaults-------------
 Main pages: Strona Główna
+
 Name: Nazwa
+Description: Opis
 Action: Akcje
 View: Szczegóły
 Date: Data
 Edit: Edytuj
 Remove: Usuń
-Version: Wersja 1.1.1
+Created: Utworzony
+Updated: Zmodifikowany
+Submit: Wyślij
+Author: Twórca
+
 Problem with base: Jest problem z bazą danych
 Incorrect parameters action: Błędne parametry akcji
-Admin: Administrator
-User: Użytkownik
-Submit: Wyślij
+
+Version: Wersja 1.5.0
+
+#-----------Comment----------
+Comment: Komentarz
+Comments: Komentarze
+Comment not found: Komentarz został nie znaleziony
+Add comment: Dodaj komentarz
+Added comment: Dodano nowy komentarz
+Edit comment: Edycja komentarza
+Comment modified: Komentarz został zmodifikowany
+Comment removed: Komentarz został usunięty
 
 #---------Labels------------
 Label: Etykieta
@@ -21,6 +36,17 @@ Add Label: Dodaj etykietę
 Added label: Dodano nową etykiete
 Label modified: Etykieta została zmodifikowana
 Label removed: Etykieta została usunięta
+
+#---------Projects------------
+Key: Klucz
+Project lead: Menadżer projektu
+Project: Projekt
+Projects: Projekty
+Project not found: Projekt został nie znaleziony
+Add project: Dodaj projekt
+Added project: Dodano nowy projekt
+Project modified: Projekt został zmodifikowany
+Project removed: Projekt został usunięty
 
 #---------Status------------
 Status: Status
@@ -40,14 +66,25 @@ Added priority: Dodano nowy priorytet
 Priority modified: Piorytet został zmodifikowany
 Priority removed: Piorytet został usunięty
 
+#---------Worklog------------
+Worklog: Worklog
+Worklog not found: Worklog został nie znaleziony
+Add worklog: Dodaj worklog
+Added worklog: Dodano nowy worklog
+Worklog modified: Worklog został zmodifikowany
+Worklog removed: Worklog został usunięty
+Time spent: Spędzony czas w godzinach
+
 #---------Task------------
 Task: Zadanie
 Tasks: Zadania
 Task not found: Task został nie znaleziony
+Task details: Szczegóły zadania
 Add task: Dodaj zadanie
 Added task: Dodano zadanie
 Task modified: Zadanie zostało zmodyfikowane
 Task removed: Zadanie zostało usunięte
+Assignee: Assignee
 
 #-----------Login-----------
 Login: Login
@@ -93,3 +130,5 @@ Problem with sending messages: Problem z wysłaniem wiadomości
 Role: Role
 Change role: Zmiana roli
 Changed role: Zmiana roli udała się
+Admin: Administrator
+User: Użytkownik

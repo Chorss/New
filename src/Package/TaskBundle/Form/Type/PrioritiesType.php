@@ -14,6 +14,10 @@ class PrioritiesType extends AbstractType
             ->add('name', TextType::class, array(
                 'label' => 'Name'
             ))
+            ->add('description', TextType::class, array(
+                'label' => 'Description',
+                'required' => false
+            ))
             ->add('submit', SubmitType::class, array('label' => 'Submit'));
     }
 }

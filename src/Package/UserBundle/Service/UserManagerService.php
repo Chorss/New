@@ -69,8 +69,7 @@ class UserManagerService
     {
         $em = $this->doctrine->getManager();
 
-        $user = $em->getRepository('PackageUserBundle:User')
-            ->findOneByEmail($userEmail);
+        $user = $this->isExistUserByEmail($userEmail);
 
         if ($user === null) {
             throw new \Exception($this->translator->trans("User not found"));
@@ -110,8 +109,7 @@ class UserManagerService
     public function resetPassword($actionToken)
     {
         $em = $this->doctrine->getManager();
-        $user = $em->getRepository('PackageUserBundle:User')
-            ->findOneByActionToken($actionToken);
+        $user = $this->isExistUserByActionToken($actionToken);
 
         if ($user === null) {
             throw new \Exception($this->translator->trans("Incorrect parameters action"));
@@ -190,8 +188,7 @@ class UserManagerService
     public function activateAccount($actionToken)
     {
         $em = $this->doctrine->getManager();
-        $user = $em->getRepository('PackageUserBundle:User')
-            ->findOneByActionToken($actionToken);
+        $user = $this->isExistUserByActionToken($actionToken);
 
         if ($user === null) {
             throw new \Exception($this->translator->trans("Incorrect parameters action"));
@@ -232,10 +229,7 @@ class UserManagerService
     public function changeRole($username, $role)
     {
         $em = $this->doctrine->getManager();
-        $user = $em->getRepository("PackageUserBundle:User")->findOneBy(
-            array(
-                "username" => $username
-            ));
+        $user = $this->isExistUserByUsername($username);
 
         if (is_null($user)) {
             throw new UserNotFoundException($this->translator->trans("User not found"));
@@ -294,5 +288,51 @@ class UserManagerService
         }
 
         return $password;
+    }
+
+    /**
+     * isExistUserByUsername
+     *
+     * @param String $username
+     * @return null|User
+     */
+    private function isExistUserByUsername(String $username)
+    {
+        return $this->doctrine->getManager()->getRepository("PackageUserBundle:User")->findOneBy(
+            array("username" => $username));
+    }
+
+
+    /**
+     * isExistUserById
+     *
+     * @param int $id
+     * @return null|User
+     */
+    private function isExistUserById(int $id)
+    {
+        return $this->doctrine->getManager()->getRepository("PackageUserBundle:User")->find($id);
+    }
+
+    /**
+     * isExistUserByActionToken
+     *
+     * @param String $actionToken
+     * @return null|User
+     */
+    private function isExistUserByActionToken(String $actionToken)
+    {
+        return $this->doctrine->getManager()->getRepository("PackageUserBundle:User")->findUserByActionToken($actionToken);
+    }
+
+    /**
+     * isExistUserByEmail
+     *
+     * @param String $email
+     * @return null|User
+     */
+    private function isExistUserByEmail(String $email)
+    {
+        return $this->doctrine->getManager()->getRepository("PackageUserBundle:User")->findUserByEmail($email);
     }
 }

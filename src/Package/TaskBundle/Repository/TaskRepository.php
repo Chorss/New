@@ -12,8 +12,7 @@ class TaskRepository extends EntityRepository
         $qb->select('t', 's', 'p')
             ->from('PackageTaskBundle:Task', 't')
             ->innerJoin('t.status', 's')
-            ->innerJoin('t.priority', 'p')
-            ->leftJoin('t.label', 'l');
+            ->innerJoin('t.priority', 'p');
 
         return $qb->getQuery();
     }

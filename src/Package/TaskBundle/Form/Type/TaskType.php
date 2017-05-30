@@ -16,31 +16,31 @@ class TaskType extends AbstractType
             ->add('name', TextareaType::class, array(
                 'label' => 'Name'
             ))
+            ->add('description', TextareaType::class, array(
+                'label' => 'Description'
+            ))
+            ->add('project', EntityType::class, array(
+                    'class' => 'PackageTaskBundle:Project',
+                    'choice_label' => 'name',
+                    'required' => true
+                )
+            )
+            ->add('assignee', EntityType::class, array(
+                    'class' => 'PackageUserBundle:User',
+                    'choice_label' => 'Username',
+                    'required' => false
+                )
+            )
             ->add('status', EntityType::class, array(
                     'class' => 'PackageTaskBundle:Status',
                     'choice_label' => 'Name',
-                    'expanded' => true,
-                    'multiple' => false,
-                    'required' => true,
-                    'placeholder' => 'Choose something'
+                    'required' => true
                 )
             )
             ->add('priority', EntityType::class, array(
                     'class' => 'PackageTaskBundle:Priority',
                     'choice_label' => 'Name',
-                    'expanded' => true,
-                    'multiple' => false,
                     'required' => true,
-                    'placeholder' => 'Choose something',
-                )
-            )
-            ->add('label', EntityType::class, array(
-                    'class' => 'PackageTaskBundle:Label',
-                    'choice_label' => 'Name',
-                    'expanded' => true,
-                    'multiple' => false,
-                    'required' => false,
-                    'placeholder' => 'Choose something'
                 )
             )
             ->add('submit', SubmitType::class, array('label' => 'Submit'));

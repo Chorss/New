@@ -2,13 +2,14 @@
 
 namespace Package\TaskBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="status")
  * @ORM\Entity(repositoryClass="Package\TaskBundle\Repository\StatusRepository")
+ * @UniqueEntity("name")
  */
 class Status
 {
@@ -29,14 +30,11 @@ class Status
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Task", mappedBy="status")
+     * @Assert\Length(max=500)
+     *
+     * @ORM\Column(type="string", length=500, nullable = true)
      */
-    private $task;
-
-    public function __construct()
-    {
-        $this->tasks = new ArrayCollection();
-    }
+    private $description;
 
     /**
      * Get id
@@ -73,36 +71,26 @@ class Status
     }
 
     /**
-     * Add task
+     * Set description
      *
-     * @param \Package\TaskBundle\Entity\Task $task
+     * @param string $description
      *
      * @return Status
      */
-    public function addTask(\Package\TaskBundle\Entity\Task $task)
+    public function setDescription($description)
     {
-        $this->task[] = $task;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Remove task
+     * Get description
      *
-     * @param \Package\TaskBundle\Entity\Task $task
+     * @return string
      */
-    public function removeTask(\Package\TaskBundle\Entity\Task $task)
+    public function getDescription()
     {
-        $this->task->removeElement($task);
-    }
-
-    /**
-     * Get task
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTask()
-    {
-        return $this->task;
+        return $this->description;
     }
 }
